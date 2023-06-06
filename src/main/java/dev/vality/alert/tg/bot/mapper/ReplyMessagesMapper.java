@@ -10,6 +10,7 @@ import dev.vality.alerting.mayday.CreateAlertRequest;
 import dev.vality.alerting.mayday.ParameterInfo;
 import dev.vality.alerting.mayday.ParameterValue;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -21,6 +22,7 @@ import java.util.Map;
 
 import static dev.vality.alert.tg.bot.utils.MainMenuBuilder.buildMainInlineKeyboardMarkup;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class ReplyMessagesMapper {
@@ -32,6 +34,7 @@ public class ReplyMessagesMapper {
 
     public SendMessage createAlertRequest(long userId) throws TException {
         StateData stateData = stateDataDao.getByUserId(userId);
+        log.info("Start create alert with stateData {}", stateData);
         Map<String, String> paramMap = jsonMapper.toMap(stateData.getMapParams());
         CreateAlertRequest createAlertRequest = new CreateAlertRequest();
         createAlertRequest.setAlertId(stateData.getAlertId());
@@ -49,6 +52,7 @@ public class ReplyMessagesMapper {
         SendMessage message = new SendMessage();
         message.setText(TextConstants.ALERT_CREATED.getText());
         message.setReplyMarkup(buildMainInlineKeyboardMarkup());
+        log.info("Alert {} was created", createAlertRequest);
         return message;
     }
 

@@ -7,6 +7,7 @@ import dev.vality.alert.tg.bot.service.MayDayService;
 import dev.vality.alerting.mayday.Alert;
 import dev.vality.alerting.mayday.UserAlert;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -21,6 +22,7 @@ import java.util.List;
 import static dev.vality.alert.tg.bot.constants.TextConstants.*;
 import static dev.vality.alert.tg.bot.utils.MainMenuBuilder.buildMainInlineKeyboardMarkup;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class MenuCallbackMapper {
@@ -69,6 +71,7 @@ public class MenuCallbackMapper {
     }
 
     public SendMessage deleteAllAlertsCallback(long userId) throws TException {
+        log.info("User {} delete all alerts", userId);
         SendMessage message = new SendMessage();
         mayDayService.deleteAllAlerts(String.valueOf(userId));
         message.setText(ALERTS_REMOVED.getText());

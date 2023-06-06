@@ -13,7 +13,6 @@ import java.util.Objects;
 
 import static dev.vality.alert.tg.bot.utils.MainMenuBuilder.buildMainInlineKeyboardMarkup;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class MessageHandler implements CommonHandler {
