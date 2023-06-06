@@ -39,7 +39,7 @@ public class ParametersCallbackMapper {
         return message;
     }
 
-    public void fillStateDataAndSave(long userId, String alertId,
+    private void fillStateDataAndSave(long userId, String alertId,
                                      List<ParameterConfiguration> parameterConfigurations) {
         StateData stateData = stateDataDao.getByUserId(userId);
         stateData.setAlertId(alertId);
@@ -51,7 +51,7 @@ public class ParametersCallbackMapper {
         stateDataDao.save(stateData);
     }
 
-    public void convertParameterConfigurationsAndSave(String alertId, ParameterConfiguration param) {
+    private void convertParameterConfigurationsAndSave(String alertId, ParameterConfiguration param) {
         ParametersData parametersData = new ParametersData();
         parametersData.setAlertId(alertId);
         parametersData.setParamId(param.getId());

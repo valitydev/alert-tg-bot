@@ -53,15 +53,6 @@ public class ReplyMessagesMapper {
         return message;
     }
 
-    public ParameterValue mapParameterValue(ParametersData parametersData, Map<String, String> paramMap, String key) {
-        return switch (parametersData.getParamType()) {
-            case str -> ParameterValue.str(paramMap.get(key));
-            case integer -> ParameterValue.integer(Long.parseLong(paramMap.get(key)));
-            case fl -> ParameterValue.fl(Double.parseDouble(paramMap.get(key)));
-            case bl -> ParameterValue.bl(Boolean.parseBoolean(paramMap.get(key)));
-        };
-    }
-
     public SendMessage createNextParameterRequest(String text) {
         SendMessage message = new SendMessage();
         message.setReplyMarkup(new ForceReplyKeyboard());
@@ -75,5 +66,14 @@ public class ReplyMessagesMapper {
         message.setText(TextConstants.ALERT_REMOVED.getText());
         message.setReplyMarkup(buildMainInlineKeyboardMarkup());
         return message;
+    }
+
+    private ParameterValue mapParameterValue(ParametersData parametersData, Map<String, String> paramMap, String key) {
+        return switch (parametersData.getParamType()) {
+            case str -> ParameterValue.str(paramMap.get(key));
+            case integer -> ParameterValue.integer(Long.parseLong(paramMap.get(key)));
+            case fl -> ParameterValue.fl(Double.parseDouble(paramMap.get(key)));
+            case bl -> ParameterValue.bl(Boolean.parseBoolean(paramMap.get(key)));
+        };
     }
 }
