@@ -5,7 +5,6 @@ import dev.vality.alert.tg.bot.dao.ParametersDao;
 import dev.vality.alert.tg.bot.dao.StateDataDao;
 import dev.vality.alert.tg.bot.domain.tables.pojos.ParametersData;
 import dev.vality.alert.tg.bot.domain.tables.pojos.StateData;
-import dev.vality.alert.tg.bot.mapper.JsonMapper;
 import dev.vality.alert.tg.bot.service.MayDayService;
 import dev.vality.alerting.mayday.CreateAlertRequest;
 import dev.vality.alerting.mayday.ParameterInfo;
@@ -60,7 +59,7 @@ public class ReplyMessagesMapper {
         return message;
     }
 
-    public SendMessage createDeleteAlert(String text) throws TException {
+    public SendMessage deleteAlert(String text) throws TException {
         SendMessage message = new SendMessage();
         mayDayService.deleteAlert(text);
         message.setText(TextConstants.ALERT_REMOVED.getText());

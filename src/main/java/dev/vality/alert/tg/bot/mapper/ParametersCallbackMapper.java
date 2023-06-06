@@ -40,7 +40,7 @@ public class ParametersCallbackMapper {
     }
 
     private void fillStateDataAndSave(long userId, String alertId,
-                                     List<ParameterConfiguration> parameterConfigurations) {
+                                      List<ParameterConfiguration> parameterConfigurations) {
         StateData stateData = stateDataDao.getByUserId(userId);
         stateData.setAlertId(alertId);
         Map<String, String> mapParams = new HashMap<>();
