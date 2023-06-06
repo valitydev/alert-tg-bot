@@ -68,6 +68,21 @@ public abstract class TestObjectFactory {
         return update;
     }
 
+    public static Update testUpdateReplyDeleteAlert() {
+        User user = new User();
+        user.setId(123L);
+        Chat chat = new Chat();
+        chat.setId(123L);
+        Message message = new Message();
+        message.setText("Введите id алерта для удаления");
+        message.setReplyToMessage(message);
+        message.setChat(chat);
+        message.setFrom(user);
+        Update update = new Update();
+        update.setMessage(message);
+        return update;
+    }
+
     public static Update testUpdateDeleteAllCallback() {
         User user = new User();
         user.setId(123L);
@@ -95,7 +110,29 @@ public abstract class TestObjectFactory {
         user.setId(123L);
         CallbackQuery callbackQuery = new CallbackQuery();
         callbackQuery.setFrom(user);
+        callbackQuery.setData("getAllAlerts");
+        Update update = new Update();
+        update.setCallbackQuery(callbackQuery);
+        return update;
+    }
+
+    public static Update testUpdateReturnCallback() {
+        User user = new User();
+        user.setId(123L);
+        CallbackQuery callbackQuery = new CallbackQuery();
+        callbackQuery.setFrom(user);
         callbackQuery.setData("return");
+        Update update = new Update();
+        update.setCallbackQuery(callbackQuery);
+        return update;
+    }
+
+    public static Update testUpdateMessageCallback() {
+        User user = new User();
+        user.setId(123L);
+        CallbackQuery callbackQuery = new CallbackQuery();
+        callbackQuery.setFrom(user);
+        callbackQuery.setData("test");
         Update update = new Update();
         update.setCallbackQuery(callbackQuery);
         return update;
