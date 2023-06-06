@@ -38,9 +38,7 @@ public class ReplyHandler implements CommonHandler {
         } else {
             StateData stateData = stateDataDao.getByUserId(userId);
             Map<String, String> paramMap = jsonMapper.toMap(stateData.getMapParams());
-            String replyText = update.getMessage().getReplyToMessage().getText();
-            String answerText = update.getMessage().getText();
-            paramMap.put(replyText, answerText);
+            paramMap.put(update.getMessage().getReplyToMessage().getText(), update.getMessage().getText());
             stateData.setMapParams(jsonMapper.toJson(paramMap));
             stateDataDao.updateParams(userId, stateData.getMapParams());
             String nextKey = getNextKeyForFill(paramMap);
