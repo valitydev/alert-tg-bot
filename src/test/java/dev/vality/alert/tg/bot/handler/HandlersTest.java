@@ -60,7 +60,6 @@ public class HandlersTest {
     void testMessageHandle() throws Exception {
         Update update = testUpdateMessage();
         SendMessage sendMessage = messageHandler.handle(update, 123L);
-        System.out.println(sendMessage);
         assertNotNull(sendMessage);
         assertNotNull(sendMessage.getReplyMarkup());
         assertEquals(SELECT_ACTION.getText(), sendMessage.getText());
