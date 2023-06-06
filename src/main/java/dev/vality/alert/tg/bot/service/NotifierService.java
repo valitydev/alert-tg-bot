@@ -31,5 +31,4 @@ public class NotifierService implements NotifierServiceSrv.Iface {
         }
     }
 
-
 }

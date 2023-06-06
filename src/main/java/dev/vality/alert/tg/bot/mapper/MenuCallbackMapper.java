@@ -1,4 +1,4 @@
-package dev.vality.alert.tg.bot.utils;
+package dev.vality.alert.tg.bot.mapper;
 
 import dev.vality.alert.tg.bot.constants.MainMenu;
 import dev.vality.alert.tg.bot.dao.StateDataDao;

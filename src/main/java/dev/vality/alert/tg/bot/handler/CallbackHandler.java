@@ -1,7 +1,7 @@
 package dev.vality.alert.tg.bot.handler;
 
-import dev.vality.alert.tg.bot.utils.MenuCallbackMapper;
-import dev.vality.alert.tg.bot.utils.ParametersCallbackMapper;
+import dev.vality.alert.tg.bot.mapper.MenuCallbackMapper;
+import dev.vality.alert.tg.bot.mapper.ParametersCallbackMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
@@ -42,7 +42,7 @@ public class CallbackHandler implements CommonHandler {
                 return menuCallbackMapper.returnCallback();
             }
             default -> {
-                return parametersCallbackMapper.parametersCallback(callbackData, userId);
+                return parametersCallbackMapper.mapParametersCallback(callbackData, userId);
             }
         }
     }

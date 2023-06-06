@@ -1,4 +1,4 @@
-package dev.vality.alert.tg.bot.utils;
+package dev.vality.alert.tg.bot.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;

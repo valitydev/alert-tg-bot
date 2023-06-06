@@ -1,10 +1,11 @@
-package dev.vality.alert.tg.bot.utils;
+package dev.vality.alert.tg.bot.mapper;
 
 import dev.vality.alert.tg.bot.constants.TextConstants;
 import dev.vality.alert.tg.bot.dao.ParametersDao;
 import dev.vality.alert.tg.bot.dao.StateDataDao;
 import dev.vality.alert.tg.bot.domain.tables.pojos.ParametersData;
 import dev.vality.alert.tg.bot.domain.tables.pojos.StateData;
+import dev.vality.alert.tg.bot.mapper.JsonMapper;
 import dev.vality.alert.tg.bot.service.MayDayService;
 import dev.vality.alerting.mayday.CreateAlertRequest;
 import dev.vality.alerting.mayday.ParameterInfo;

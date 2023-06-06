@@ -1,4 +1,4 @@
-package dev.vality.alert.tg.bot.utils;
+package dev.vality.alert.tg.bot.mapper;
 
 import dev.vality.alert.tg.bot.dao.ParametersDao;
 import dev.vality.alert.tg.bot.dao.StateDataDao;
@@ -27,7 +27,7 @@ public class ParametersCallbackMapper {
     private final ParametersDao parametersDao;
     private final JsonMapper jsonMapper;
 
-    public SendMessage parametersCallback(String callData, long userId) throws TException {
+    public SendMessage mapParametersCallback(String callData, long userId) throws TException {
         SendMessage message = new SendMessage();
         AlertConfiguration alertConfiguration = mayDayService.getAlertConfiguration(callData);
         String alertId = alertConfiguration.getAlertId();
