@@ -1,0 +1,50 @@
+server:
+  port: 9098
+management:
+  security:
+    flag: false
+  server:
+    port: ${management.port}
+  metrics:
+    tags:
+      application: ${project.name}
+    export:
+      prometheus:
+        enabled: true
+  endpoint:
+    health:
+      show-details: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+
+spring:
+  application:
+    name: '@project.name@'
+  output:
+    ansi:
+      enabled: always
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/alert_tg_bot
+    username: postgres
+    password: postgres
+
+info:
+  version: '@project.version@'
+  stage: dev
+
+mayday:
+  url: http://localhost:8022/mayday
+  networkTimeout: 5000
+
+bot:
+  token: test
+  name: AlertBot
+  chatId: test
