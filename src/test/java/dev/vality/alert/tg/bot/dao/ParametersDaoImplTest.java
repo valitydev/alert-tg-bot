@@ -3,14 +3,14 @@ package dev.vality.alert.tg.bot.dao;
 import dev.vality.alert.tg.bot.TestObjectFactory;
 import dev.vality.alert.tg.bot.config.PostgresqlJooqTest;
 import dev.vality.alert.tg.bot.dao.impl.ParametersDaoImpl;
-import dev.vality.alert.tg.bot.domain.tables.pojos.Parameters;
+import dev.vality.alert.tg.bot.domain.tables.pojos.ParametersData;
 import org.jooq.DSLContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
-import static dev.vality.alert.tg.bot.domain.Tables.PARAMETERS;
+import static dev.vality.alert.tg.bot.domain.Tables.PARAMETERS_DATA;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -26,16 +26,16 @@ class ParametersDaoImplTest {
 
     @BeforeEach
     void setUp() {
-        dslContext.deleteFrom(PARAMETERS).execute();
+        dslContext.deleteFrom(PARAMETERS_DATA).execute();
     }
 
     @Test
     void save() {
-        Parameters parameters = TestObjectFactory.testParameters();
+        ParametersData parameters = TestObjectFactory.testParameters();
 
-        Parameters savedParameters = parametersDao.save(parameters);
+        ParametersData savedParameters = parametersDao.save(parameters);
 
-        assertEquals(1, dslContext.fetchCount(PARAMETERS));
+        assertEquals(1, dslContext.fetchCount(PARAMETERS_DATA));
         assertNotNull(savedParameters);
         assertNotNull(savedParameters.getId());
         assertEquals(parameters.getParamId(), savedParameters.getParamId());
@@ -43,12 +43,13 @@ class ParametersDaoImplTest {
 
     @Test
     void getByAlertIdAndParamName() {
-        Parameters parameters = TestObjectFactory.testParameters();
-        dslContext.insertInto(PARAMETERS)
-                .set(dslContext.newRecord(PARAMETERS, parameters))
+        ParametersData parameters = TestObjectFactory.testParameters();
+        dslContext.insertInto(PARAMETERS_DATA)
+                .set(dslContext.newRecord(PARAMETERS_DATA, parameters))
                 .execute();
 
-        Parameters params = parametersDao.getByAlertIdAndParamName(parameters.getAlertId(), parameters.getParamName());
+        ParametersData params =
+                parametersDao.getByAlertIdAndParamName(parameters.getAlertId(), parameters.getParamName());
 
         assertEquals(parameters.getParamId(), params.getParamId());
     }

@@ -1,11 +1,11 @@
 package dev.vality.alert.tg.bot.dao;
 
-import dev.vality.alert.tg.bot.domain.tables.pojos.Parameters;
+import dev.vality.alert.tg.bot.domain.tables.pojos.ParametersData;
 
 public interface ParametersDao {
 
-    Parameters save(Parameters param);
+    ParametersData save(ParametersData parametersData);
 
-    Parameters getByAlertIdAndParamName(String alertId, String paramName);
+    ParametersData getByAlertIdAndParamName(String alertId, String paramName);
 
 }

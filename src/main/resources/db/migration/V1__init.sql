@@ -13,7 +13,7 @@ CREATE TABLE alert_tg_bot.state_data
 
 CREATE TYPE alert_tg_bot.parameter_type AS ENUM ('bl', 'fl', 'integer', 'str');
 
-CREATE TABLE alert_tg_bot.parameters
+CREATE TABLE alert_tg_bot.parameters_data
 (
     id           BIGSERIAL                   NOT NULL,
     alert_id     CHARACTER VARYING           NOT NULL,

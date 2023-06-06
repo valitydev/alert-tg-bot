@@ -3,7 +3,7 @@ package dev.vality.alert.tg.bot.utils;
 import dev.vality.alert.tg.bot.dao.ParametersDao;
 import dev.vality.alert.tg.bot.dao.StateDataDao;
 import dev.vality.alert.tg.bot.domain.enums.ParameterType;
-import dev.vality.alert.tg.bot.domain.tables.pojos.Parameters;
+import dev.vality.alert.tg.bot.domain.tables.pojos.ParametersData;
 import dev.vality.alert.tg.bot.domain.tables.pojos.StateData;
 import dev.vality.alert.tg.bot.service.MayDayService;
 import dev.vality.alerting.mayday.AlertConfiguration;
@@ -52,12 +52,12 @@ public class ParametersCallbackMapper {
     }
 
     public void convertParameterConfigurationsAndSave(String alertId, ParameterConfiguration param) {
-        Parameters parameters = new Parameters();
-        parameters.setAlertId(alertId);
-        parameters.setParamId(param.getId());
-        parameters.setParamName(param.getName());
-        parameters.setParamType(getParamType(param.getType()));
-        parametersDao.save(parameters);
+        ParametersData parametersData = new ParametersData();
+        parametersData.setAlertId(alertId);
+        parametersData.setParamId(param.getId());
+        parametersData.setParamName(param.getName());
+        parametersData.setParamType(getParamType(param.getType()));
+        parametersDao.save(parametersData);
     }
 
     private ParameterType getParamType(dev.vality.alerting.mayday.ParameterType parameterType) {

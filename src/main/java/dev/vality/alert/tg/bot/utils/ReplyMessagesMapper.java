@@ -3,7 +3,7 @@ package dev.vality.alert.tg.bot.utils;
 import dev.vality.alert.tg.bot.constants.TextConstants;
 import dev.vality.alert.tg.bot.dao.ParametersDao;
 import dev.vality.alert.tg.bot.dao.StateDataDao;
-import dev.vality.alert.tg.bot.domain.tables.pojos.Parameters;
+import dev.vality.alert.tg.bot.domain.tables.pojos.ParametersData;
 import dev.vality.alert.tg.bot.domain.tables.pojos.StateData;
 import dev.vality.alert.tg.bot.service.MayDayService;
 import dev.vality.alerting.mayday.CreateAlertRequest;
@@ -38,10 +38,10 @@ public class ReplyMessagesMapper {
         createAlertRequest.setUserId(String.valueOf(userId));
         List<ParameterInfo> parameterInfos = new ArrayList<>();
         for (String key : paramMap.keySet()) {
-            Parameters param = parametersDao.getByAlertIdAndParamName(stateData.getAlertId(), key);
+            ParametersData parametersData = parametersDao.getByAlertIdAndParamName(stateData.getAlertId(), key);
             ParameterInfo parameterInfo = new ParameterInfo();
-            parameterInfo.setParameterId(param.getParamId());
-            parameterInfo.setType(mapParameterValue(param, paramMap, key));
+            parameterInfo.setParameterId(parametersData.getParamId());
+            parameterInfo.setType(mapParameterValue(parametersData, paramMap, key));
             parameterInfos.add(parameterInfo);
         }
         createAlertRequest.setParameters(parameterInfos);
@@ -52,8 +52,8 @@ public class ReplyMessagesMapper {
         return message;
     }
 
-    public ParameterValue mapParameterValue(Parameters param, Map<String, String> paramMap, String key) {
-        return switch (param.getParamType()) {
+    public ParameterValue mapParameterValue(ParametersData parametersData, Map<String, String> paramMap, String key) {
+        return switch (parametersData.getParamType()) {
             case str -> ParameterValue.str(paramMap.get(key));
             case integer -> ParameterValue.integer(Long.parseLong(paramMap.get(key)));
             case fl -> ParameterValue.fl(Double.parseDouble(paramMap.get(key)));

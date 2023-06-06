@@ -1,7 +1,7 @@
 package dev.vality.alert.tg.bot;
 
 import dev.vality.alert.tg.bot.domain.enums.ParameterType;
-import dev.vality.alert.tg.bot.domain.tables.pojos.Parameters;
+import dev.vality.alert.tg.bot.domain.tables.pojos.ParametersData;
 import dev.vality.alert.tg.bot.domain.tables.pojos.StateData;
 import org.telegram.telegrambots.meta.api.objects.*;
 
@@ -16,8 +16,8 @@ public abstract class TestObjectFactory {
         return stateData;
     }
 
-    public static Parameters testParameters() {
-        Parameters params = new Parameters();
+    public static ParametersData testParameters() {
+        ParametersData params = new ParametersData();
         params.setAlertId("32");
         params.setParamName("Терминал");
         params.setParamId("14");
