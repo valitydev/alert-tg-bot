@@ -26,77 +26,77 @@ public abstract class TestObjectFactory {
     }
 
     public static Update testUpdateMessage() {
-        Update update = new Update();
-        Message message = new Message();
-        message.setText("test");
         Chat chat = new Chat();
         chat.setId(123L);
-        message.setChat(chat);
         User user = new User();
         user.setId(123L);
+        Message message = new Message();
+        message.setText("test");
+        message.setChat(chat);
         message.setFrom(user);
+        Update update = new Update();
         update.setMessage(message);
         return update;
     }
 
     public static Update testUpdateMessageWithWithDifferentId() {
-        Update update = new Update();
-        Message message = new Message();
-        message.setText("test");
         Chat chat = new Chat();
         chat.setId(123L);
-        message.setChat(chat);
         User user = new User();
         user.setId(567L);
+        Message message = new Message();
+        message.setText("test");
+        message.setChat(chat);
         message.setFrom(user);
+        Update update = new Update();
         update.setMessage(message);
         return update;
     }
 
     public static Update testUpdateReply() {
-        Update update = new Update();
+        User user = new User();
+        user.setId(123L);
+        Chat chat = new Chat();
+        chat.setId(123L);
         Message message = new Message();
         message.setText("test");
         message.setReplyToMessage(message);
-        Chat chat = new Chat();
-        chat.setId(123L);
         message.setChat(chat);
-        User user = new User();
-        user.setId(123L);
         message.setFrom(user);
+        Update update = new Update();
         update.setMessage(message);
         return update;
     }
 
     public static Update testUpdateDeleteAllCallback() {
-        Update update = new Update();
-        CallbackQuery callbackQuery = new CallbackQuery();
         User user = new User();
         user.setId(123L);
+        CallbackQuery callbackQuery = new CallbackQuery();
         callbackQuery.setFrom(user);
         callbackQuery.setData("deleteAllAlerts");
+        Update update = new Update();
         update.setCallbackQuery(callbackQuery);
         return update;
     }
 
     public static Update testUpdateCreateAlertCallback() {
-        Update update = new Update();
-        CallbackQuery callbackQuery = new CallbackQuery();
         User user = new User();
         user.setId(123L);
+        CallbackQuery callbackQuery = new CallbackQuery();
         callbackQuery.setFrom(user);
         callbackQuery.setData("createAlert");
+        Update update = new Update();
         update.setCallbackQuery(callbackQuery);
         return update;
     }
 
     public static Update testUpdateGetAllAlertsCallback() {
-        Update update = new Update();
-        CallbackQuery callbackQuery = new CallbackQuery();
         User user = new User();
         user.setId(123L);
+        CallbackQuery callbackQuery = new CallbackQuery();
         callbackQuery.setFrom(user);
         callbackQuery.setData("return");
+        Update update = new Update();
         update.setCallbackQuery(callbackQuery);
         return update;
     }

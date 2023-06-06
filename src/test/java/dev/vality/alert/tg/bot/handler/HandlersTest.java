@@ -55,7 +55,6 @@ public class HandlersTest {
     private MenuCallbackMapper menuCallbackMapper;
     @Autowired
     private ParametersCallbackMapper parametersCallbackMapper;
-    ;
 
     @Test
     void testMessageHandle() throws Exception {
