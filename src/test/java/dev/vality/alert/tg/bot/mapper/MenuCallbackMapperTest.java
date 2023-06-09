@@ -43,7 +43,13 @@ public class MenuCallbackMapperTest {
         SendMessage sendMessage = menuCallbackMapper.getAllAlertsCallback(123L);
         assertNotNull(sendMessage);
         assertNotNull(sendMessage.getReplyMarkup());
-        assertEquals(userAlertsList.toString(), sendMessage.getText());
+        StringBuilder text = new StringBuilder("Ваши алерты:\n");
+        userAlertsList.forEach(userAlert -> {
+            text.append("id: ").append(userAlert.getId())
+                    .append(" Название: ").append(userAlert.getName())
+                    .append("\n");
+        });
+        assertEquals(text.toString(), sendMessage.getText());
     }
 
     @Test
