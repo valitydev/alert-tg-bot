@@ -39,17 +39,19 @@ public class AlertBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         try {
-            long userId = update.hasMessage()
-                    ? update.getMessage().getFrom().getId()
-                    : update.getCallbackQuery().getFrom().getId();
-            SendMessage message = handlers.stream()
-                    .filter(handler -> handler.filter(update))
-                    .findFirst()
-                    .orElse(new MainMenuHandler())
-                    .handle(update, userId);
-            if (message != null && isUserPermission(update)) {
-                message.setChatId(userId);
-                execute(message);
+            if (isUserPermission(update)) {
+                long userId = update.hasMessage()
+                        ? update.getMessage().getFrom().getId()
+                        : update.getCallbackQuery().getFrom().getId();
+                SendMessage message = handlers.stream()
+                        .filter(handler -> handler.filter(update))
+                        .findFirst()
+                        .orElse(new MainMenuHandler())
+                        .handle(update, userId);
+                if (message != null) {
+                    message.setChatId(userId);
+                    execute(message);
+                }
             }
         } catch (TelegramApiException | TException ex) {
             throw new AlertTgBotException(String.format("Received an exception while handle update %s", update), ex);
@@ -65,7 +67,15 @@ public class AlertBot extends TelegramLongPollingBot {
                 : update.getCallbackQuery().getMessage().getFrom().getUserName();
         try {
             ChatMember chatMember = execute(new GetChatMember(alertBotProperties.getChatId(), userId));
-            return ALLOWED_USER_STATUSES.contains(chatMember.getStatus());
+            if (ALLOWED_USER_STATUSES.contains(chatMember.getStatus())) {
+                return true;
+            } else {
+                SendMessage message = new SendMessage();
+                message.setChatId(userId);
+                message.setText("У вас не прав на создание алертов");
+                execute(message);
+                return false;
+            }
         } catch (TelegramApiException e) {
             checkExceptionIsUserInChat(e, userName, userId);
             throw new AlertTgBotException(String.format("Error while checking user %s permissions", userName), e);

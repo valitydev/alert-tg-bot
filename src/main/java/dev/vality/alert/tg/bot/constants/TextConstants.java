@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum TextConstants {
 
     SELECT_ACTION("Выберите действие"),
-    REPLY_OR_ACTION("Ответье на предыдущее сообщение или выберите действие"),
+    REPLY_OR_ACTION("Ответьте на предыдущее сообщение или выберите действие"),
     ENTER_PARAMETER("Введите параметр %s в формате %s"),
     ALERT_CREATED("Алерт создан"),
     ENTER_ALERT_ID_FOR_REMOVED("Введите id алерта для удаления"),

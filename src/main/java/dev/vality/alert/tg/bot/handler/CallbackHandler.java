@@ -1,9 +1,9 @@
 package dev.vality.alert.tg.bot.handler;
 
+import dev.vality.alert.tg.bot.constants.MainMenu;
 import dev.vality.alert.tg.bot.mapper.MenuCallbackMapper;
 import dev.vality.alert.tg.bot.mapper.ParametersCallbackMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -24,26 +24,14 @@ public class CallbackHandler implements CommonHandler {
     @Override
     public SendMessage handle(Update update, long userId) throws TException {
         String callbackData = update.getCallbackQuery().getData();
-        switch (callbackData) {
-            case "createAlert" -> {
-                return menuCallbackMapper.createAlertCallback(userId);
-            }
-            case "getAllAlerts" -> {
-                return menuCallbackMapper.getAllAlertsCallback(userId);
-            }
-            case "deleteAlert" -> {
-                return menuCallbackMapper.deleteAlertCallback(userId);
-            }
-            case "deleteAllAlerts" -> {
-                return menuCallbackMapper.deleteAllAlertsCallback(userId);
-            }
-            case "return" -> {
-                return menuCallbackMapper.returnCallback();
-            }
-            default -> {
-                return parametersCallbackMapper.mapParametersCallback(callbackData, userId);
-            }
-        }
+        return switch (MainMenu.valueOfCallbackData(callbackData)) {
+            case CREATE_ALERT -> menuCallbackMapper.createAlertCallback(userId);
+            case GET_ALL_ALERTS -> menuCallbackMapper.getAllAlertsCallback(userId);
+            case DELETE_ALERT -> menuCallbackMapper.deleteAlertCallback(userId);
+            case DELETE_ALL_ALERTS -> menuCallbackMapper.deleteAllAlertsCallback(userId);
+            case RETURN_TO_MENU -> menuCallbackMapper.returnCallback();
+            default -> parametersCallbackMapper.mapParametersCallback(callbackData, userId);
+        };
     }
 
 }

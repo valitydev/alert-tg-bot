@@ -3,6 +3,8 @@ package dev.vality.alert.tg.bot.constants;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Arrays;
+
 @Getter
 @RequiredArgsConstructor
 public enum MainMenu {
@@ -16,5 +18,10 @@ public enum MainMenu {
     private final String text;
 
     private final String callbackData;
+
+    public static MainMenu valueOfCallbackData(String callbackData) {
+        return Arrays.stream(MainMenu.values()).filter(mainMenu -> mainMenu.getCallbackData().equals(callbackData))
+                .findFirst().orElse(null);
+    }
 
 }
