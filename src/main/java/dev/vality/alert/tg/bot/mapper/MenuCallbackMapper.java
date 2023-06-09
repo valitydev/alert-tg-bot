@@ -59,9 +59,9 @@ public class MenuCallbackMapper {
         List<UserAlert> userAlerts = mayDayService.getUserAlerts(String.valueOf(userId));
         StringBuilder text = new StringBuilder("Ваши алерты:\n");
         userAlerts.forEach(userAlert -> {
-        text.append("id: ").append(userAlert.getId())
-                .append(" Название: ").append(userAlert.getName())
-                .append("\n");
+            text.append("id: ").append(userAlert.getId())
+                    .append(" Название: ").append(userAlert.getName())
+                    .append("\n");
         });
         message.setText(text.toString());
         message.setReplyMarkup(buildMainInlineKeyboardMarkup());
