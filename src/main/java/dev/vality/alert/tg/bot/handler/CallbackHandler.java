@@ -6,12 +6,15 @@ import dev.vality.alert.tg.bot.mapper.MenuCallbackMapper;
 import dev.vality.alert.tg.bot.mapper.ParametersCallbackMapper;
 import lombok.RequiredArgsConstructor;
 import org.apache.thrift.TException;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Component
 @RequiredArgsConstructor
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class CallbackHandler implements CommonHandler {
 
     private final MenuCallbackMapper menuCallbackMapper;

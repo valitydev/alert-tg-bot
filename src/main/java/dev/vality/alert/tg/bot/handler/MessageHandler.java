@@ -4,6 +4,8 @@ import dev.vality.alert.tg.bot.constants.TextConstants;
 import dev.vality.alert.tg.bot.dao.StateDataDao;
 import dev.vality.alert.tg.bot.domain.tables.pojos.StateData;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -14,6 +16,7 @@ import static dev.vality.alert.tg.bot.utils.MainMenuBuilder.buildMainInlineKeybo
 
 @Component
 @RequiredArgsConstructor
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class MessageHandler implements CommonHandler {
 
     private final StateDataDao stateDataDao;

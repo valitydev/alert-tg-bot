@@ -8,6 +8,8 @@ import dev.vality.alert.tg.bot.mapper.ReplyMessagesMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -18,6 +20,7 @@ import java.util.Objects;
 @Slf4j
 @Component
 @RequiredArgsConstructor
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class ReplyHandler implements CommonHandler {
 
     private final StateDataDao stateDataDao;
