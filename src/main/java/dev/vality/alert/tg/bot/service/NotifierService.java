@@ -27,7 +27,9 @@ public class NotifierService implements NotifierServiceSrv.Iface {
                         .chatId(Long.valueOf(notification.getReceiverId()))
                         .text(notification.getMessage()).build());
 
-                log.info("Notification {} to user {} was send", notification.getMessage(), notification.getReceiverId());
+                log.info("Notification {} to user {} was send",
+                        notification.getMessage(),
+                        notification.getReceiverId());
             }
         } catch (TelegramApiException | TException ex) {
             throw new AlertTgBotException(
