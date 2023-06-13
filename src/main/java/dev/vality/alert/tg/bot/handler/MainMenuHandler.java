@@ -1,6 +1,8 @@
 package dev.vality.alert.tg.bot.handler;
 
 import dev.vality.alert.tg.bot.constants.TextConstants;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -10,11 +12,12 @@ import java.util.Objects;
 import static dev.vality.alert.tg.bot.utils.MainMenuBuilder.buildMainInlineKeyboardMarkup;
 
 @Component
+@Order(Ordered.LOWEST_PRECEDENCE)
 public class MainMenuHandler implements CommonHandler {
 
     @Override
     public boolean filter(Update update) {
-        return false;
+        return true;
     }
 
     @Override
