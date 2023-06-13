@@ -1,6 +1,7 @@
 package dev.vality.alert.tg.bot.handler;
 
 import dev.vality.alert.tg.bot.constants.MainMenu;
+import dev.vality.alert.tg.bot.exeptions.AlertTgBotException;
 import dev.vality.alert.tg.bot.mapper.MenuCallbackMapper;
 import dev.vality.alert.tg.bot.mapper.ParametersCallbackMapper;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ public class CallbackHandler implements CommonHandler {
             case DELETE_ALERT -> menuCallbackMapper.deleteAlertCallback(userId);
             case DELETE_ALL_ALERTS -> menuCallbackMapper.deleteAllAlertsCallback(userId);
             case RETURN_TO_MENU -> menuCallbackMapper.returnCallback();
+            case CONFIGURE_PARAM -> throw new AlertTgBotException("Unknown callback parameter");
             default -> parametersCallbackMapper.mapParametersCallback(callbackData, userId);
         };
     }
