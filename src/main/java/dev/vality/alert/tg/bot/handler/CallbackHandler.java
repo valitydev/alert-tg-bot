@@ -31,8 +31,7 @@ public class CallbackHandler implements CommonHandler {
             case DELETE_ALERT -> menuCallbackMapper.deleteAlertCallback(userId);
             case DELETE_ALL_ALERTS -> menuCallbackMapper.deleteAllAlertsCallback(userId);
             case RETURN_TO_MENU -> menuCallbackMapper.returnCallback();
-            case CONFIGURE_PARAM -> throw new AlertTgBotException("Unknown callback parameter");
-            default -> parametersCallbackMapper.mapParametersCallback(callbackData, userId);
+            case CONFIGURE_PARAM -> parametersCallbackMapper.mapParametersCallback(callbackData, userId);
         };
     }
 
