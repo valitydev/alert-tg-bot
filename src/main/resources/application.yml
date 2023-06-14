@@ -35,6 +35,14 @@ spring:
     url: jdbc:postgresql://localhost:5432/alert_tg_bot
     username: postgres
     password: postgres
+  cloud:
+    vault:
+      kv:
+        enabled: true
+      uri: https://vault.empayre.com:443
+      authentication: TOKEN
+      scheme: http
+      token: "123456"
 
 info:
   version: '@project.version@'
@@ -45,6 +53,6 @@ mayday:
   networkTimeout: 5000
 
 bot:
-  token: test
+  token: ${botToken}
   name: AlertBot
-  chatId: test
+  chatId: ${chatId}
