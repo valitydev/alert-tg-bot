@@ -77,11 +77,6 @@
         </dependency>
         <dependency>
             <groupId>dev.vality</groupId>
-            <artifactId>adapter-common-lib</artifactId>
-            <version>1.2.8</version>
-        </dependency>
-        <dependency>
-            <groupId>dev.vality</groupId>
             <artifactId>damsel</artifactId>
             <version>1.597-bfedcb9</version>
         </dependency>
