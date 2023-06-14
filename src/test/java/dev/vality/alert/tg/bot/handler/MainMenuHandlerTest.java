@@ -4,6 +4,7 @@ import dev.vality.alert.tg.bot.config.ExcludeDataSourceConfiguration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -18,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(SpringExtension.class)
 @Import(ExcludeDataSourceConfiguration.class)
 @ContextConfiguration(classes = {MainMenuHandler.class})
+@SpringBootTest(properties = {"spring.config.location=classpath:/application.yml"})
 public class MainMenuHandlerTest {
 
     @Autowired
