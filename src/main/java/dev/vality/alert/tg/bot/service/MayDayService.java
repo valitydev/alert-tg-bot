@@ -17,8 +17,8 @@ public class MayDayService {
         mayDayClient.deleteAllAlerts(userId);
     }
 
-    public void deleteAlert(String userAlertId) throws TException {
-        mayDayClient.deleteAlert(userAlertId);
+    public void deleteAlert(String userId, String userAlertId) throws TException {
+        mayDayClient.deleteAlert(userId, userAlertId);
     }
 
     public List<UserAlert> getUserAlerts(String userId) throws TException {

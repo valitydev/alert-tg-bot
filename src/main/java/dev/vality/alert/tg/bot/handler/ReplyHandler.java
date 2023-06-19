@@ -38,7 +38,7 @@ public class ReplyHandler implements CommonHandler {
     public SendMessage handle(Update update, long userId) throws TException {
         if (isReplyMessageDeleteAlert(update)) {
             log.info("Delete alert {} for user {}", update.getMessage().getText(), userId);
-            return replyMessagesMapper.deleteAlert(update.getMessage().getText());
+            return replyMessagesMapper.deleteAlert(userId, update.getMessage().getText());
         } else {
             StateData stateData = stateDataDao.getByUserId(userId);
             Map<String, String> paramMap = jsonMapper.toMap(stateData.getMapParams());

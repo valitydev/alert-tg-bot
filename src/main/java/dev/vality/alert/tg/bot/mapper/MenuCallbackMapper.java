@@ -40,7 +40,7 @@ public class MenuCallbackMapper {
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
         alerts.forEach(alert -> rowsInline.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text(alert.getName())
-                .callbackData(alert.getAlert())
+                .callbackData(alert.getId())
                 .build())));
         rowsInline.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text(MainMenu.RETURN_TO_MENU.getText())
@@ -68,9 +68,8 @@ public class MenuCallbackMapper {
         return message;
     }
 
-    public SendMessage deleteAlertCallback(long userId) throws TException {
+    public SendMessage deleteAlertCallback() {
         SendMessage message = new SendMessage();
-        mayDayService.deleteAlert(String.valueOf(userId));
         message.setText(ENTER_ALERT_ID_FOR_REMOVED.getText());
         message.setReplyMarkup(new ForceReplyKeyboard());
         return message;

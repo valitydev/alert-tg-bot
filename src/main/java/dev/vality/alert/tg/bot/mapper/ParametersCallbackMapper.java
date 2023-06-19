@@ -30,7 +30,7 @@ public class ParametersCallbackMapper {
     public SendMessage mapParametersCallback(String callData, long userId) throws TException {
         SendMessage message = new SendMessage();
         AlertConfiguration alertConfiguration = mayDayService.getAlertConfiguration(callData);
-        String alertId = alertConfiguration.getAlertId();
+        String alertId = alertConfiguration.getId();
         List<ParameterConfiguration> parameterConfigurations = alertConfiguration.getParameters();
         fillStateDataAndSave(userId, alertId, parameterConfigurations);
         parameterConfigurations.forEach(param -> convertParameterConfigurationsAndSave(alertId, param));
