@@ -47,7 +47,7 @@ public class ParametersCallbackMapperTest {
                 Collections.singletonList(new ParameterConfiguration()
                         .setId("2").setName("test").setType(ParameterType.str));
         when(mayDayService.getAlertConfiguration(any()))
-                .thenReturn(new AlertConfiguration().setAlertId("test").setParameters(parameterConfigurations));
+                .thenReturn(new AlertConfiguration().setId("test").setParameters(parameterConfigurations));
         when(stateDataDao.getByUserId(any())).thenReturn(testStateData());
         SendMessage sendMessage = parametersCallbackMapper.mapParametersCallback("test", 123L);
         assertNotNull(sendMessage);

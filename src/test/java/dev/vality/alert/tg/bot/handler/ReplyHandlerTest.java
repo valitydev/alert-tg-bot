@@ -62,7 +62,7 @@ public class ReplyHandlerTest {
         SendMessage sendMessage = replyHandler.handle(update, 123L);
         assertNotNull(sendMessage);
         assertEquals(ALERT_REMOVED.getText(), sendMessage.getText());
-        verify(mayDayService, times(1)).deleteAlert(any());
+        verify(mayDayService, times(1)).deleteAlert(any(), any());
 
     }
 }

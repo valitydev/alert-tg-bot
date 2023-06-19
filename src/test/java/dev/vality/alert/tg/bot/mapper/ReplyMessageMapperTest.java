@@ -50,7 +50,7 @@ public class ReplyMessageMapperTest {
                 Collections.singletonList(new ParameterConfiguration()
                         .setId("2").setName("test").setType(ParameterType.str));
         when(mayDayService.getAlertConfiguration(any()))
-                .thenReturn(new AlertConfiguration().setAlertId("test").setParameters(parameterConfigurations));
+                .thenReturn(new AlertConfiguration().setId("test").setParameters(parameterConfigurations));
         when(stateDataDao.getByUserId(any())).thenReturn(testStateData());
         when(parametersDao.getByAlertIdAndParamName(any(), any())).thenReturn(testParameters());
         SendMessage sendMessage = replyMessagesMapper.createAlertRequest(123L);
@@ -71,10 +71,10 @@ public class ReplyMessageMapperTest {
 
     @Test
     void testDeleteAlert() throws Exception {
-        SendMessage sendMessage = replyMessagesMapper.deleteAlert("test");
+        SendMessage sendMessage = replyMessagesMapper.deleteAlert(123L, "test");
         assertNotNull(sendMessage);
         assertNotNull(sendMessage.getReplyMarkup());
         assertEquals(ALERT_REMOVED.getText(), sendMessage.getText());
-        verify(mayDayService, times(1)).deleteAlert(any());
+        verify(mayDayService, times(1)).deleteAlert(any(), any());
     }
 }

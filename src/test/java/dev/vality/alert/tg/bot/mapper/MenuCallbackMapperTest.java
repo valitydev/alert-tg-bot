@@ -55,8 +55,8 @@ public class MenuCallbackMapperTest {
     }
 
     @Test
-    void testDeleteAlertCallback() throws Exception {
-        SendMessage sendMessage = menuCallbackMapper.deleteAlertCallback(123L);
+    void testDeleteAlertCallback() {
+        SendMessage sendMessage = menuCallbackMapper.deleteAlertCallback();
         assertNotNull(sendMessage);
         assertNotNull(sendMessage.getReplyMarkup());
         assertEquals(ENTER_ALERT_ID_FOR_REMOVED.getText(), sendMessage.getText());

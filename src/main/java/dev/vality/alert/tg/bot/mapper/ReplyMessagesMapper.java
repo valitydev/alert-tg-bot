@@ -43,7 +43,7 @@ public class ReplyMessagesMapper {
         for (String key : paramMap.keySet()) {
             ParametersData parametersData = parametersDao.getByAlertIdAndParamName(stateData.getAlertId(), key);
             ParameterInfo parameterInfo = new ParameterInfo();
-            parameterInfo.setParameterId(parametersData.getParamId());
+            parameterInfo.setId(parametersData.getParamId());
             parameterInfo.setType(mapParameterValue(parametersData, paramMap, key));
             parameterInfos.add(parameterInfo);
         }
@@ -63,9 +63,9 @@ public class ReplyMessagesMapper {
         return message;
     }
 
-    public SendMessage deleteAlert(String text) throws TException {
+    public SendMessage deleteAlert(long userId, String text) throws TException {
         SendMessage message = new SendMessage();
-        mayDayService.deleteAlert(text);
+        mayDayService.deleteAlert(String.valueOf(userId), text);
         message.setText(TextConstants.ALERT_REMOVED.getText());
         message.setReplyMarkup(buildMainInlineKeyboardMarkup());
         return message;
