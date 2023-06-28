@@ -8,4 +8,6 @@ public interface ParametersDao {
 
     ParametersData getByAlertIdAndParamName(String alertId, String paramName);
 
+    ParametersData getByAlertIdAndParamId(String alertId, String paramId);
+
 }

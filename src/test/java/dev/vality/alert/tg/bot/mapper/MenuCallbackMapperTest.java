@@ -47,8 +47,8 @@ public class MenuCallbackMapperTest {
         assertNotNull(sendMessage.getReplyMarkup());
         StringBuilder text = new StringBuilder("Ваши алерты:\n");
         userAlertsList.forEach(userAlert -> {
-            text.append("id: ").append(userAlert.getId())
-                    .append(" Название: ").append(userAlert.getName())
+            text.append("*id:* ").append(userAlert.getId())
+                    .append("\n*Название:* ").append(userAlert.getName())
                     .append("\n");
         });
         assertEquals(text.toString(), sendMessage.getText());

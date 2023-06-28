@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -17,11 +18,17 @@ public class JsonMapper {
 
     @SneakyThrows(JsonProcessingException.class)
     public String toJson(Object data) {
-        return objectMapper.writeValueAsString(data);
+        return data != null ? objectMapper.writeValueAsString(data) : null;
     }
 
     @SneakyThrows(JsonProcessingException.class)
     public Map<String, String> toMap(String json) {
+        return objectMapper.readValue(json, new TypeReference<>() {
+        });
+    }
+
+    @SneakyThrows(JsonProcessingException.class)
+    public List<String> toList(String json) {
         return objectMapper.readValue(json, new TypeReference<>() {
         });
     }

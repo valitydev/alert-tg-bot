@@ -52,4 +52,13 @@ public class ParametersDaoImpl extends AbstractDao implements ParametersDao {
                 .and(PARAMETERS_DATA.PARAM_NAME.eq(paramName));
         return fetchOne(get, parameterTypeRecordRowMapper);
     }
+
+    @Override
+    public ParametersData getByAlertIdAndParamId(String alertId, String paramId) {
+        var get = getDslContext()
+                .selectFrom(PARAMETERS_DATA)
+                .where(PARAMETERS_DATA.ALERT_ID.eq(alertId))
+                .and(PARAMETERS_DATA.PARAM_ID.eq(paramId));
+        return fetchOne(get, parameterTypeRecordRowMapper);
+    }
 }

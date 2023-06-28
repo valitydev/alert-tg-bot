@@ -13,7 +13,7 @@ import static dev.vality.alert.tg.bot.utils.MainMenuBuilder.buildMainInlineKeybo
 
 @Component
 @Order(Ordered.LOWEST_PRECEDENCE)
-public class MainMenuHandler implements CommonHandler {
+public class MainMenuHandler implements CommonHandler<SendMessage> {
 
     @Override
     public boolean filter(Update update) {

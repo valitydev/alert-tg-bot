@@ -48,7 +48,7 @@
         <dependency>
             <groupId>dev.vality</groupId>
             <artifactId>mayday-proto</artifactId>
-            <version>1.6-44df908</version>
+            <version>1.7-b2b2b3b</version>
         </dependency>
         <dependency>
             <groupId>dev.vality</groupId>

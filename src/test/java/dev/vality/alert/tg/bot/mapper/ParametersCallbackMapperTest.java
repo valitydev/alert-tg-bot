@@ -6,7 +6,6 @@ import dev.vality.alert.tg.bot.dao.StateDataDao;
 import dev.vality.alert.tg.bot.service.MayDayService;
 import dev.vality.alerting.mayday.AlertConfiguration;
 import dev.vality.alerting.mayday.ParameterConfiguration;
-import dev.vality.alerting.mayday.ParameterType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,14 +44,14 @@ public class ParametersCallbackMapperTest {
     void testMapParametersCallback() throws Exception {
         List<ParameterConfiguration> parameterConfigurations =
                 Collections.singletonList(new ParameterConfiguration()
-                        .setId("2").setName("test").setType(ParameterType.str));
+                        .setId("2").setName("test").setOptions(List.of("test")));
         when(mayDayService.getAlertConfiguration(any()))
                 .thenReturn(new AlertConfiguration().setId("test").setParameters(parameterConfigurations));
         when(stateDataDao.getByUserId(any())).thenReturn(testStateData());
         SendMessage sendMessage = parametersCallbackMapper.mapParametersCallback("test", 123L);
         assertNotNull(sendMessage);
         assertNotNull(sendMessage.getReplyMarkup());
-        assertEquals("test", sendMessage.getText());
+        assertEquals("Выберете из списка параметр: test", sendMessage.getText());
         verify(mayDayService, times(1)).getAlertConfiguration(any());
         verify(stateDataDao, times(1)).getByUserId(any());
         verify(stateDataDao, times(1)).save(any());

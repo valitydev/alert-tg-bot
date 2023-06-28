@@ -10,14 +10,13 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.util.Objects;
-
 import static dev.vality.alert.tg.bot.utils.MainMenuBuilder.buildMainInlineKeyboardMarkup;
+import static dev.vality.alert.tg.bot.utils.UserUtils.isUserInBot;
 
 @Component
 @RequiredArgsConstructor
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class MessageHandler implements CommonHandler {
+public class MessageHandler implements CommonHandler<SendMessage> {
 
     private final StateDataDao stateDataDao;
 
@@ -26,7 +25,8 @@ public class MessageHandler implements CommonHandler {
         return update.hasMessage()
                 && update.getMessage().hasText()
                 && update.getMessage().getReplyToMessage() == null
-                && Objects.equals(update.getMessage().getChatId(), update.getMessage().getFrom().getId());
+                && !update.getMessage().hasViaBot()
+                && isUserInBot(update);
     }
 
     @Override

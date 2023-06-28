@@ -8,15 +8,21 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.AnswerInlineQuery;
+import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMember;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
+import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
+import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.List;
 
 import static dev.vality.alert.tg.bot.constants.UserStatuses.ALLOWED_USER_STATUSES;
+import static dev.vality.alert.tg.bot.utils.UserUtils.getUserId;
+import static dev.vality.alert.tg.bot.utils.UserUtils.getUserName;
 
 @Slf4j
 @Service
@@ -28,11 +34,13 @@ public class AlertBot extends TelegramLongPollingBot {
 
     public AlertBot(AlertBotProperties alertBotProperties,
                     List<CommonHandler> handlers,
-                    MayDayService mayDayService) {
+                    MayDayService mayDayService) throws TelegramApiException {
         super(alertBotProperties.getToken());
         this.handlers = handlers;
         this.alertBotProperties = alertBotProperties;
         this.mayDayService = mayDayService;
+        this.execute(new SetMyCommands(List.of(
+                new BotCommand("/start", "Main Menu")), new BotCommandScopeDefault(), null));
     }
 
     @Override
@@ -42,19 +50,22 @@ public class AlertBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+        System.out.println(update);
         try {
             if (isUserPermission(update)) {
-                long userId = update.hasMessage()
-                        ? update.getMessage().getFrom().getId()
-                        : update.getCallbackQuery().getFrom().getId();
-                SendMessage message = handlers.stream()
+                long userId = getUserId(update);
+                var answer = handlers.stream()
                         .filter(handler -> handler.filter(update))
                         .findFirst()
                         .orElseThrow(UnknownHandlerException::new)
                         .handle(update, userId);
-                if (message != null) {
-                    message.setChatId(userId);
-                    execute(message);
+                if (answer instanceof SendMessage sendMessage) {
+                    sendMessage.setChatId(userId);
+                    execute(sendMessage);
+                } else if (answer instanceof AnswerInlineQuery answerInlineQuery) {
+                    answerInlineQuery.setIsPersonal(true);
+                    answerInlineQuery.setCacheTime(0);
+                    execute(answerInlineQuery);
                 }
             }
         } catch (TelegramApiException | TException ex) {
@@ -63,12 +74,8 @@ public class AlertBot extends TelegramLongPollingBot {
     }
 
     public boolean isUserPermission(Update update) throws TException {
-        Long userId = update.hasMessage()
-                ? update.getMessage().getFrom().getId()
-                : update.getCallbackQuery().getMessage().getFrom().getId();
-        String userName = update.hasMessage()
-                ? update.getMessage().getFrom().getUserName()
-                : update.getCallbackQuery().getMessage().getFrom().getUserName();
+        Long userId = getUserId(update);
+        String userName = getUserName(update);
         try {
             return isChatMemberPermission(userId);
         } catch (TelegramApiException e) {
