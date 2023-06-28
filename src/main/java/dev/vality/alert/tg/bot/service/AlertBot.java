@@ -50,7 +50,6 @@ public class AlertBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        System.out.println(update);
         try {
             if (isUserPermission(update)) {
                 long userId = getUserId(update);
