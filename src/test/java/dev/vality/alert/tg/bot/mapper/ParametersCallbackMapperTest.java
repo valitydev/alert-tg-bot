@@ -51,7 +51,7 @@ public class ParametersCallbackMapperTest {
         SendMessage sendMessage = parametersCallbackMapper.mapParametersCallback("test", 123L);
         assertNotNull(sendMessage);
         assertNotNull(sendMessage.getReplyMarkup());
-        assertEquals("Выберете из списка параметр: test", sendMessage.getText());
+        assertEquals("Выберите из списка параметр: test", sendMessage.getText());
         verify(mayDayService, times(1)).getAlertConfiguration(any());
         verify(stateDataDao, times(1)).getByUserId(any());
         verify(stateDataDao, times(1)).save(any());
