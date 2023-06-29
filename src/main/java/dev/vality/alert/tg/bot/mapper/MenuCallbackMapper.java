@@ -57,13 +57,16 @@ public class MenuCallbackMapper {
     public SendMessage getAllAlertsCallback(long userId) throws TException {
         SendMessage message = new SendMessage();
         List<UserAlert> userAlerts = mayDayService.getUserAlerts(String.valueOf(userId));
-        StringBuilder text = new StringBuilder("Ваши алерты:\n");
-        userAlerts.forEach(userAlert -> {
-            text.append("id: ").append(userAlert.getId())
-                    .append(" Название: ").append(userAlert.getName())
-                    .append("\n");
-        });
-        message.setText(text.toString());
+        if (!userAlerts.isEmpty()) {
+            StringBuilder text = new StringBuilder("Ваши алерты:\n");
+            userAlerts.forEach(userAlert -> text.append("*id:* ").append(userAlert.getId())
+                    .append("\n*Название:* ").append(userAlert.getName())
+                    .append("\n"));
+            message.setText(text.toString());
+            message.setParseMode("MarkdownV2");
+        } else {
+            message.setText("У вас нет созданных алертов");
+        }
         message.setReplyMarkup(buildMainInlineKeyboardMarkup());
         return message;
     }

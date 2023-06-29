@@ -6,15 +6,14 @@ import dev.vality.alert.tg.bot.dao.StateDataDao;
 import dev.vality.alert.tg.bot.domain.tables.pojos.ParametersData;
 import dev.vality.alert.tg.bot.domain.tables.pojos.StateData;
 import dev.vality.alert.tg.bot.service.MayDayService;
+import dev.vality.alert.tg.bot.utils.ParamKeyboardBuilder;
 import dev.vality.alerting.mayday.CreateAlertRequest;
 import dev.vality.alerting.mayday.ParameterInfo;
-import dev.vality.alerting.mayday.ParameterValue;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ForceReplyKeyboard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +43,7 @@ public class ReplyMessagesMapper {
             ParametersData parametersData = parametersDao.getByAlertIdAndParamName(stateData.getAlertId(), key);
             ParameterInfo parameterInfo = new ParameterInfo();
             parameterInfo.setId(parametersData.getParamId());
-            parameterInfo.setType(mapParameterValue(parametersData, paramMap, key));
+            parameterInfo.setValue(paramMap.get(key));
             parameterInfos.add(parameterInfo);
         }
         createAlertRequest.setParameters(parameterInfos);
@@ -56,27 +55,24 @@ public class ReplyMessagesMapper {
         return message;
     }
 
-    public SendMessage createNextParameterRequest(String text) {
-        SendMessage message = new SendMessage();
-        message.setReplyMarkup(new ForceReplyKeyboard());
-        message.setText(text);
-        return message;
+    public SendMessage createNextParameterRequest(String nextValue, StateData stateData) {
+        ParametersData parametersData = parametersDao.getByAlertIdAndParamName(
+                stateData.getAlertId(),
+                nextValue);
+        return ParamKeyboardBuilder.buildParamKeyboard(
+                parametersData.getOptionsValues() != null,
+                parametersData.getAlertId(),
+                parametersData.getParamId(),
+                parametersData.getParamName(),
+                nextValue);
     }
 
-    public SendMessage deleteAlert(long userId, String text) throws TException {
+    public SendMessage deleteAlert(long userId, String userAlertId) throws TException {
+        log.info("Delete alert {} for user {}", userAlertId, userId);
         SendMessage message = new SendMessage();
-        mayDayService.deleteAlert(String.valueOf(userId), text);
+        mayDayService.deleteAlert(String.valueOf(userId), userAlertId);
         message.setText(TextConstants.ALERT_REMOVED.getText());
         message.setReplyMarkup(buildMainInlineKeyboardMarkup());
         return message;
-    }
-
-    private ParameterValue mapParameterValue(ParametersData parametersData, Map<String, String> paramMap, String key) {
-        return switch (parametersData.getParamType()) {
-            case str -> ParameterValue.str(paramMap.get(key));
-            case integer -> ParameterValue.integer(Long.parseLong(paramMap.get(key)));
-            case fl -> ParameterValue.fl(Double.parseDouble(paramMap.get(key)));
-            case bl -> ParameterValue.bl(Boolean.parseBoolean(paramMap.get(key)));
-        };
     }
 }

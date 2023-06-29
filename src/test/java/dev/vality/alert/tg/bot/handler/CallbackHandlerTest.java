@@ -9,7 +9,6 @@ import dev.vality.alert.tg.bot.mapper.ParametersCallbackMapper;
 import dev.vality.alert.tg.bot.service.MayDayService;
 import dev.vality.alerting.mayday.AlertConfiguration;
 import dev.vality.alerting.mayday.ParameterConfiguration;
-import dev.vality.alerting.mayday.ParameterType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,7 +88,7 @@ public class CallbackHandlerTest {
     void testCallbackMessageHandler() throws Exception {
         List<ParameterConfiguration> parameterConfigurations =
                 Collections.singletonList(new ParameterConfiguration()
-                        .setId("2").setName("test").setType(ParameterType.str));
+                        .setId("2").setName("test"));
         when(mayDayService.getAlertConfiguration(any()))
                 .thenReturn(new AlertConfiguration().setId("test").setParameters(parameterConfigurations));
         when(stateDataDao.getByUserId(any())).thenReturn(testStateData());

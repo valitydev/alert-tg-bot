@@ -14,7 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Component
 @RequiredArgsConstructor
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class CallbackHandler implements CommonHandler {
+public class CallbackHandler implements CommonHandler<SendMessage> {
 
     private final MenuCallbackMapper menuCallbackMapper;
     private final ParametersCallbackMapper parametersCallbackMapper;

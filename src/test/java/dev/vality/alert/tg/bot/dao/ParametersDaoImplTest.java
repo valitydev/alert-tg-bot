@@ -54,4 +54,17 @@ class ParametersDaoImplTest {
         assertEquals(parameters.getParamId(), params.getParamId());
     }
 
+    @Test
+    void getByAlertIdAndParamId() {
+        ParametersData parameters = TestObjectFactory.testParameters();
+        dslContext.insertInto(PARAMETERS_DATA)
+                .set(dslContext.newRecord(PARAMETERS_DATA, parameters))
+                .execute();
+
+        ParametersData params =
+                parametersDao.getByAlertIdAndParamId(parameters.getAlertId(), parameters.getParamId());
+
+        assertEquals(parameters.getParamId(), params.getParamId());
+    }
+
 }

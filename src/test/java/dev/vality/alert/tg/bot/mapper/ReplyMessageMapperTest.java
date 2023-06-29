@@ -6,7 +6,6 @@ import dev.vality.alert.tg.bot.dao.StateDataDao;
 import dev.vality.alert.tg.bot.service.MayDayService;
 import dev.vality.alerting.mayday.AlertConfiguration;
 import dev.vality.alerting.mayday.ParameterConfiguration;
-import dev.vality.alerting.mayday.ParameterType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +47,7 @@ public class ReplyMessageMapperTest {
     void testCreateAlertRequest() throws Exception {
         List<ParameterConfiguration> parameterConfigurations =
                 Collections.singletonList(new ParameterConfiguration()
-                        .setId("2").setName("test").setType(ParameterType.str));
+                        .setId("2").setName("test").setOptions(List.of("test")));
         when(mayDayService.getAlertConfiguration(any()))
                 .thenReturn(new AlertConfiguration().setId("test").setParameters(parameterConfigurations));
         when(stateDataDao.getByUserId(any())).thenReturn(testStateData());
@@ -63,10 +62,11 @@ public class ReplyMessageMapperTest {
 
     @Test
     void testCreateNextParameterRequest() {
-        SendMessage sendMessage = replyMessagesMapper.createNextParameterRequest("test");
+        when(parametersDao.getByAlertIdAndParamName(any(), any())).thenReturn(testParameters());
+        SendMessage sendMessage = replyMessagesMapper.createNextParameterRequest("test", testStateData());
         assertNotNull(sendMessage);
         assertNotNull(sendMessage.getReplyMarkup());
-        assertEquals("test", sendMessage.getText());
+        assertEquals("Выберите из списка параметр: Терминал", sendMessage.getText());
     }
 
     @Test

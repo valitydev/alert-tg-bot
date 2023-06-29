@@ -1,9 +1,12 @@
 package dev.vality.alert.tg.bot;
 
-import dev.vality.alert.tg.bot.domain.enums.ParameterType;
 import dev.vality.alert.tg.bot.domain.tables.pojos.ParametersData;
 import dev.vality.alert.tg.bot.domain.tables.pojos.StateData;
+import dev.vality.alerting.mayday.UserAlert;
 import org.telegram.telegrambots.meta.api.objects.*;
+import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
+
+import java.util.List;
 
 
 public abstract class TestObjectFactory {
@@ -21,8 +24,19 @@ public abstract class TestObjectFactory {
         params.setAlertId("32");
         params.setParamName("Терминал");
         params.setParamId("14");
-        params.setParamType(ParameterType.str);
+        params.setOptionsValues("[\"test1\",\"test2\"]");
+        params.setMandatory(false);
         return params;
+    }
+
+    public static List<UserAlert> testUserAlerts() {
+        UserAlert userAlert = new UserAlert();
+        userAlert.setId("testId");
+        userAlert.setName("testName");
+        UserAlert userAlert2 = new UserAlert();
+        userAlert2.setId("testId2");
+        userAlert2.setName("testName2");
+        return List.of(userAlert, userAlert2);
     }
 
     public static Update testUpdateMessage() {
@@ -59,7 +73,7 @@ public abstract class TestObjectFactory {
         Chat chat = new Chat();
         chat.setId(123L);
         Message message = new Message();
-        message.setText("test");
+        message.setText("Введите в ответе параметр: test");
         message.setReplyToMessage(message);
         message.setChat(chat);
         message.setFrom(user);
@@ -68,18 +82,57 @@ public abstract class TestObjectFactory {
         return update;
     }
 
-    public static Update testUpdateReplyDeleteAlert() {
+    public static Update testUpdateViaBotSelectAlert() {
         User user = new User();
         user.setId(123L);
         Chat chat = new Chat();
         chat.setId(123L);
         Message message = new Message();
-        message.setText("Введите id алерта для удаления");
+        message.setText("selectAlert test");
         message.setReplyToMessage(message);
         message.setChat(chat);
         message.setFrom(user);
         Update update = new Update();
         update.setMessage(message);
+        return update;
+    }
+
+    public static Update testUpdateViaBotSelectParam() {
+        User user = new User();
+        user.setId(123L);
+        Chat chat = new Chat();
+        chat.setId(123L);
+        Message message = new Message();
+        message.setText("selectParam{32}<14>");
+        message.setReplyToMessage(message);
+        message.setChat(chat);
+        message.setFrom(user);
+        Update update = new Update();
+        update.setMessage(message);
+        return update;
+    }
+
+    public static Update testUpdateInlineQuerySelectAlert() {
+        User user = new User();
+        user.setId(123L);
+        InlineQuery inlineQuery = new InlineQuery();
+        inlineQuery.setId("123");
+        inlineQuery.setFrom(user);
+        inlineQuery.setQuery("selectAlert");
+        Update update = new Update();
+        update.setInlineQuery(inlineQuery);
+        return update;
+    }
+
+    public static Update testUpdateInlineQuerySelectParam() {
+        User user = new User();
+        user.setId(123L);
+        InlineQuery inlineQuery = new InlineQuery();
+        inlineQuery.setId("123");
+        inlineQuery.setFrom(user);
+        inlineQuery.setQuery("selectParam[test1]{test2}");
+        Update update = new Update();
+        update.setInlineQuery(inlineQuery);
         return update;
     }
 

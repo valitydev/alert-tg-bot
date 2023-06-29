@@ -1,5 +1,6 @@
 package dev.vality.alert.tg.bot.utils;
 
+import dev.vality.alert.tg.bot.constants.InlineCommands;
 import dev.vality.alert.tg.bot.constants.MainMenu;
 import lombok.RequiredArgsConstructor;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -25,7 +26,7 @@ public class MainMenuBuilder {
                 .build()));
         rowsInline.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text(MainMenu.DELETE_ALERT.getText())
-                .callbackData(MainMenu.DELETE_ALERT.getCallbackData())
+                .switchInlineQueryCurrentChat(InlineCommands.SELECT_ALERT.getCommand())
                 .build()));
         rowsInline.add(Collections.singletonList(InlineKeyboardButton.builder()
                 .text(MainMenu.DELETE_ALL_ALERTS.getText())
