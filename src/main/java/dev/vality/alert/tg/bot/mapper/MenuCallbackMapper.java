@@ -60,7 +60,8 @@ public class MenuCallbackMapper {
         if (!userAlerts.isEmpty()) {
             StringBuilder text = new StringBuilder("Ваши алерты:\n");
             userAlerts.forEach(userAlert -> text.append("*id:* ").append(userAlert.getId())
-                    .append("\n*Название:* ").append(userAlert.getName())
+                    .append("\n*Название:* ")
+                    .append(escapeSpecialCharacters(userAlert.getName()))
                     .append("\n"));
             message.setText(text.toString());
             message.setParseMode("MarkdownV2");
@@ -92,5 +93,14 @@ public class MenuCallbackMapper {
         message.setText(SELECT_ACTION.getText());
         message.setReplyMarkup(buildMainInlineKeyboardMarkup());
         return message;
+    }
+
+    private String escapeSpecialCharacters(String message) {
+        return message
+                .replace("_", "\\_")
+                .replace("*", "\\*")
+                .replace("[", "\\[")
+                .replace("`", "\\`")
+                .replace(".", "\\.");
     }
 }
