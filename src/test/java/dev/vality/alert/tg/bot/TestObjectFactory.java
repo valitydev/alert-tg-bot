@@ -15,7 +15,7 @@ public abstract class TestObjectFactory {
         StateData stateData = new StateData();
         stateData.setUserId(122233L);
         stateData.setAlertId("45");
-        stateData.setMapParams("{\"Процент\":34,\"Имя Терминала\":56}");
+        stateData.setMapParams("{\"Процент\":[34],\"Имя Терминала\":[56]}");
         return stateData;
     }
 
@@ -26,6 +26,7 @@ public abstract class TestObjectFactory {
         params.setParamId("14");
         params.setOptionsValues("[\"test1\",\"test2\"]");
         params.setMandatory(false);
+        params.setMultipleValues(false);
         return params;
     }
 

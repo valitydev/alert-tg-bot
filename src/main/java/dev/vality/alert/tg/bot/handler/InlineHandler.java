@@ -21,6 +21,7 @@ import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQuery
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 import static dev.vality.alert.tg.bot.utils.StringSearchUtils.*;
 
@@ -63,7 +64,7 @@ public class InlineHandler implements CommonHandler<AnswerInlineQuery> {
                 String alertId = substringAlertId(inlineQuery);
                 String paramId = substringParamId(inlineQuery);
                 ParametersData parametersData = parametersDao.getByAlertIdAndParamId(alertId, paramId);
-                List<String> options = jsonMapper.toList(parametersData.getOptionsValues());
+                Set<String> options = jsonMapper.toSet(parametersData.getOptionsValues());
                 options.forEach(optionValue -> {
                     if (isParamInList(optionValue, inlineQuery, alertId, paramId)) {
                         queryResultArticleList.add(fillInlineQueryResultArticle(
