@@ -14,10 +14,7 @@ import org.apache.thrift.TException;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -32,6 +29,7 @@ public class ParametersCallbackMapper {
         AlertConfiguration alertConfiguration = mayDayService.getAlertConfiguration(callData);
         String alertId = alertConfiguration.getId();
         List<ParameterConfiguration> parameterConfigurations = alertConfiguration.getParameters();
+        parameterConfigurations.sort(ParameterConfiguration::compareTo);
         fillStateDataAndSave(userId, alertId, parameterConfigurations);
         parameterConfigurations.forEach(param -> convertParameterConfigurationsAndSave(alertId, param));
         return ParamKeyboardBuilder.buildParamKeyboard(
