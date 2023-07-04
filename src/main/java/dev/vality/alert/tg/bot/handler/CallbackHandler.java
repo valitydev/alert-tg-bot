@@ -30,7 +30,7 @@ public class CallbackHandler implements CommonHandler<SendMessage> {
         return switch (MainMenu.valueOfCallbackData(callbackData)) {
             case CREATE_ALERT -> menuCallbackMapper.createAlertCallback(userId);
             case GET_ALL_ALERTS -> menuCallbackMapper.getAllAlertsCallback(userId);
-            case DELETE_ALERT -> menuCallbackMapper.deleteAlertCallback();
+            case DELETE_ALERT -> menuCallbackMapper.deleteAlertCallback(userId);
             case DELETE_ALL_ALERTS -> menuCallbackMapper.deleteAllAlertsCallback(userId);
             case RETURN_TO_MENU -> menuCallbackMapper.returnCallback();
             case CONFIGURE_PARAM -> parametersCallbackMapper.mapParametersCallback(callbackData, userId);

@@ -16,6 +16,7 @@ public enum TextConstants {
     SELECT_ALERT("Выберите алерт"),
     ALERT_REMOVED("Алерт удален"),
     ALERTS_REMOVED("Алерты удалены"),
+    NO_ALERTS_FOUND("У вас нет созданных алертов"),
     DELETE_ALL_ALERTS("Удалить все алерты"),
     SELECT_PARAM_FROM_LIST("Выберите из списка параметр: "),
     ENTER_PARAM_TO_REPLY("Введите в ответе параметр: "),
