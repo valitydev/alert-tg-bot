@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 public class ObjectMapperConfig {
 
     @Bean
-    public ObjectMapper jsonMapper() {
+    public ObjectMapper objectMapper() {
         return new ObjectMapper()
                 .configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
     }
