@@ -9,6 +9,7 @@ import dev.vality.alert.tg.bot.mapper.ParametersCallbackMapper;
 import dev.vality.alert.tg.bot.service.MayDayService;
 import dev.vality.alerting.mayday.AlertConfiguration;
 import dev.vality.alerting.mayday.ParameterConfiguration;
+import dev.vality.alerting.mayday.UserAlert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static dev.vality.alert.tg.bot.TestObjectFactory.*;
-import static dev.vality.alert.tg.bot.constants.TextConstants.ALERTS_REMOVED;
-import static dev.vality.alert.tg.bot.constants.TextConstants.SELECT_ALERT;
+import static dev.vality.alert.tg.bot.constants.TextConstants.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -49,10 +49,12 @@ public class CallbackHandlerTest {
 
     @Test
     void testCallbackDeleteAllAlertsHandler() throws Exception {
+        when(mayDayService.getUserAlerts(any())).thenReturn(List.of(new UserAlert()));
         Update update = testUpdateDeleteAllCallback();
         SendMessage sendMessage = callbackHandler.handle(update, 123L);
         assertNotNull(sendMessage);
         assertEquals(ALERTS_REMOVED.getText(), sendMessage.getText());
+        verify(mayDayService, times(1)).getUserAlerts(any());
         verify(mayDayService, times(1)).deleteAllAlerts(any());
     }
 

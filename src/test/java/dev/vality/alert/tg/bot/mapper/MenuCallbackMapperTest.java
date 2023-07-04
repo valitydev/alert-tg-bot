@@ -55,19 +55,39 @@ public class MenuCallbackMapperTest {
     }
 
     @Test
-    void testDeleteAlertCallback() {
-        SendMessage sendMessage = menuCallbackMapper.deleteAlertCallback();
+    void testDeleteAlertNoAlertsCallback() throws Exception {
+        SendMessage sendMessage = menuCallbackMapper.deleteAlertCallback(123L);
+        assertNotNull(sendMessage);
+        assertNotNull(sendMessage.getReplyMarkup());
+        assertEquals(NO_ALERTS_FOUND.getText(), sendMessage.getText());
+    }
+
+    @Test
+    void testDeleteAlertCallback() throws Exception {
+        when(mayDayService.getUserAlerts(any())).thenReturn(List.of(new UserAlert()));
+        SendMessage sendMessage = menuCallbackMapper.deleteAlertCallback(123L);
         assertNotNull(sendMessage);
         assertNotNull(sendMessage.getReplyMarkup());
         assertEquals(ENTER_ALERT_ID_FOR_REMOVED.getText(), sendMessage.getText());
+        verify(mayDayService, times(1)).getUserAlerts(any());
+    }
+
+    @Test
+    void testDeleteAllAlertsButNoAlertsCallback() throws Exception {
+        SendMessage sendMessage = menuCallbackMapper.deleteAllAlertsCallback(123L);
+        assertNotNull(sendMessage);
+        assertNotNull(sendMessage.getReplyMarkup());
+        assertEquals(NO_ALERTS_FOUND.getText(), sendMessage.getText());
     }
 
     @Test
     void testDeleteAllAlertsCallback() throws Exception {
+        when(mayDayService.getUserAlerts(any())).thenReturn(List.of(new UserAlert()));
         SendMessage sendMessage = menuCallbackMapper.deleteAllAlertsCallback(123L);
         assertNotNull(sendMessage);
         assertNotNull(sendMessage.getReplyMarkup());
         assertEquals(ALERTS_REMOVED.getText(), sendMessage.getText());
+        verify(mayDayService, times(1)).getUserAlerts(any());
     }
 
     @Test

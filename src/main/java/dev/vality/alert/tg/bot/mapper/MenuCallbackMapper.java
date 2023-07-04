@@ -72,18 +72,28 @@ public class MenuCallbackMapper {
         return message;
     }
 
-    public SendMessage deleteAlertCallback() {
+    public SendMessage deleteAlertCallback(long userId) throws TException {
         SendMessage message = new SendMessage();
-        message.setText(ENTER_ALERT_ID_FOR_REMOVED.getText());
-        message.setReplyMarkup(new ForceReplyKeyboard());
+        if (mayDayService.getUserAlerts(String.valueOf(userId)).isEmpty()) {
+            message.setText(NO_ALERTS_FOUND.getText());
+            message.setReplyMarkup(buildMainInlineKeyboardMarkup());
+        } else {
+            message.setText(ENTER_ALERT_ID_FOR_REMOVED.getText());
+            message.setReplyMarkup(new ForceReplyKeyboard());
+        }
+
         return message;
     }
 
     public SendMessage deleteAllAlertsCallback(long userId) throws TException {
         log.info("User {} delete all alerts", userId);
         SendMessage message = new SendMessage();
-        mayDayService.deleteAllAlerts(String.valueOf(userId));
-        message.setText(ALERTS_REMOVED.getText());
+        if (mayDayService.getUserAlerts(String.valueOf(userId)).isEmpty()) {
+            message.setText(NO_ALERTS_FOUND.getText());
+        } else {
+            mayDayService.deleteAllAlerts(String.valueOf(userId));
+            message.setText(ALERTS_REMOVED.getText());
+        }
         message.setReplyMarkup(buildMainInlineKeyboardMarkup());
         return message;
     }
