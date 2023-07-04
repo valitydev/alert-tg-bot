@@ -22,7 +22,7 @@ public class JsonMapper {
     }
 
     @SneakyThrows(JsonProcessingException.class)
-    public Map<String, String> toMap(String json) {
+    public Map<String, List<String>> toMap(String json) {
         return objectMapper.readValue(json, new TypeReference<>() {
         });
     }

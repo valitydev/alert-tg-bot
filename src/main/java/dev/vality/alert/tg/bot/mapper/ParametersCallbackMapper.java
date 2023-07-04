@@ -44,8 +44,8 @@ public class ParametersCallbackMapper {
                                       List<ParameterConfiguration> parameterConfigurations) {
         StateData stateData = stateDataDao.getByUserId(userId);
         stateData.setAlertId(alertId);
-        Map<String, String> mapParams = new HashMap<>();
-        parameterConfigurations.forEach(param -> mapParams.put(param.getName(), null));
+        Map<String, List<String>> mapParams = new HashMap<>();
+        parameterConfigurations.forEach(param -> mapParams.put(param.getName(), new ArrayList<>()));
         stateData.setMapParams(jsonMapper.toJson(mapParams));
         stateDataDao.save(stateData);
     }
@@ -61,6 +61,7 @@ public class ParametersCallbackMapper {
         }
         String optionsValues = jsonMapper.toJson(options);
         parametersData.setOptionsValues(optionsValues);
+        parametersData.setMultipleValues(param.isMultipleValues());
         parametersData.setMandatory(param.isMandatory());
         parametersData.setValueRegexp(param.getValueRegexp());
         parametersDao.save(parametersData);

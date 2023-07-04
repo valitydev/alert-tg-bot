@@ -45,12 +45,12 @@ class StateDaoImplTest {
     @Test
     void updateParams() {
         StateData stateData = TestObjectFactory.testStateData();
-        stateData.setMapParams("{\"Процент\":56,\"Имя Терминала\":test}");
+        stateData.setMapParams("{\"Процент\":[56],\"Имя Терминала\":[test]}");
         dslContext.insertInto(STATE_DATA)
                 .set(dslContext.newRecord(STATE_DATA, stateData))
                 .execute();
 
-        String newMapParams = "{\"Процент\":56,\"Имя Терминала\":new}";
+        String newMapParams = "{\"Процент\":[56],\"Имя Терминала\":[new]}";
         stateDataDao.updateParams(stateData.getUserId(), newMapParams);
 
         StateDataRecord stateDataRecord = dslContext.fetchAny(STATE_DATA);

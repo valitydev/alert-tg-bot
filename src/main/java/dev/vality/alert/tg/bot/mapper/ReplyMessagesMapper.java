@@ -15,7 +15,6 @@ import org.apache.thrift.TException;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,18 +33,23 @@ public class ReplyMessagesMapper {
     public SendMessage createAlertRequest(long userId) throws TException {
         StateData stateData = stateDataDao.getByUserId(userId);
         log.info("Start create alert with stateData {}", stateData);
-        Map<String, String> paramMap = jsonMapper.toMap(stateData.getMapParams());
+        Map<String, List<String>> paramMap = jsonMapper.toMap(stateData.getMapParams());
         CreateAlertRequest createAlertRequest = new CreateAlertRequest();
         createAlertRequest.setAlertId(stateData.getAlertId());
         createAlertRequest.setUserId(String.valueOf(userId));
-        List<ParameterInfo> parameterInfos = new ArrayList<>();
-        for (String key : paramMap.keySet()) {
-            ParametersData parametersData = parametersDao.getByAlertIdAndParamName(stateData.getAlertId(), key);
-            ParameterInfo parameterInfo = new ParameterInfo();
-            parameterInfo.setId(parametersData.getParamId());
-            parameterInfo.setValue(paramMap.get(key));
-            parameterInfos.add(parameterInfo);
-        }
+        List<ParameterInfo> parameterInfos =
+                paramMap.entrySet().stream()
+                        .flatMap(entry -> {
+                            ParametersData parametersData =
+                                    parametersDao.getByAlertIdAndParamName(stateData.getAlertId(), entry.getKey());
+                            return entry.getValue().stream()
+                                    .map(value -> {
+                                        ParameterInfo parameterInfo = new ParameterInfo();
+                                        parameterInfo.setId(parametersData.getParamId());
+                                        parameterInfo.setValue(value);
+                                        return parameterInfo;
+                                    }).toList().stream();
+                        }).toList();
         createAlertRequest.setParameters(parameterInfos);
         mayDayService.createAlert(createAlertRequest);
         SendMessage message = new SendMessage();
