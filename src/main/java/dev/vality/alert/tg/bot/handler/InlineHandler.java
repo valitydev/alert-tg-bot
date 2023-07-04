@@ -16,10 +16,10 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.AnswerInlineQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessagecontent.InputTextMessageContent;
-import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResult;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultArticle;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static dev.vality.alert.tg.bot.utils.StringSearchUtils.*;
@@ -28,6 +28,7 @@ import static dev.vality.alert.tg.bot.utils.StringSearchUtils.*;
 @RequiredArgsConstructor
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class InlineHandler implements CommonHandler<AnswerInlineQuery> {
+    public static final int MAX_INLINE_LIMIT = 50;
 
     private final MayDayService mayDayService;
     private final JsonMapper jsonMapper;
@@ -42,7 +43,7 @@ public class InlineHandler implements CommonHandler<AnswerInlineQuery> {
     @Override
     public AnswerInlineQuery handle(Update update, long userId) throws TException {
         String inlineQuery = update.getInlineQuery().getQuery();
-        List<InlineQueryResult> queryResultArticleList = new ArrayList<>();
+        List<InlineQueryResultArticle> queryResultArticleList = new ArrayList<>();
         switch (InlineCommands.valueOfStartInlineCommand(inlineQuery)) {
             case SELECT_ALERT -> {
                 List<UserAlert> userAlerts = mayDayService.getUserAlerts(
@@ -79,7 +80,14 @@ public class InlineHandler implements CommonHandler<AnswerInlineQuery> {
             default -> throw new AlertTgBotException("Unknown InlineQuery value: " + inlineQuery);
 
         }
-        return new AnswerInlineQuery(update.getInlineQuery().getId(), queryResultArticleList);
+
+        List<InlineQueryResultArticle> queryResultArticleListCopy = queryResultArticleList;
+        queryResultArticleListCopy.sort(Comparator.comparingInt(q -> q.getId().length()));
+        if (queryResultArticleListCopy.size() > MAX_INLINE_LIMIT) {
+            queryResultArticleListCopy = queryResultArticleListCopy.subList(0, MAX_INLINE_LIMIT);
+        }
+
+        return new AnswerInlineQuery(update.getInlineQuery().getId(), new ArrayList<>(queryResultArticleListCopy));
     }
 
     private InlineQueryResultArticle fillInlineQueryResultArticle(String id,
