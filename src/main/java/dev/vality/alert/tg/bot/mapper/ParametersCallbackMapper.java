@@ -55,8 +55,8 @@ public class ParametersCallbackMapper {
         parametersData.setAlertId(alertId);
         parametersData.setParamId(param.getId());
         parametersData.setParamName(param.getName());
-        List<String> options = param.isSetOptions() ? new ArrayList<>(param.getOptions()) : null;
-        if (options != null && !param.isMandatory()) {
+        Set<String> options = param.isSetOptions() ? new HashSet<>(param.getOptions()) : null;
+        if (options != null && (!param.isMandatory() || param.isMultipleValues())) {
             options.add(TextConstants.EMPTY_PARAM.getText());
         }
         String optionsValues = jsonMapper.toJson(options);

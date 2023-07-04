@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
@@ -22,13 +23,13 @@ public class JsonMapper {
     }
 
     @SneakyThrows(JsonProcessingException.class)
-    public Map<String, List<String>> toMap(String json) {
+    public Map<String, Set<String>> toMap(String json) {
         return objectMapper.readValue(json, new TypeReference<>() {
         });
     }
 
     @SneakyThrows(JsonProcessingException.class)
-    public List<String> toList(String json) {
+    public Set<String> toSet(String json) {
         return objectMapper.readValue(json, new TypeReference<>() {
         });
     }

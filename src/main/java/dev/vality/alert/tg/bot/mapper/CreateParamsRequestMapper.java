@@ -10,9 +10,7 @@ import org.apache.thrift.TException;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 @Component
@@ -26,10 +24,10 @@ public class CreateParamsRequestMapper {
 
     public SendMessage createRequest(Long userId, String paramName, String paramValue) throws TException {
         StateData stateData = stateDataDao.getByUserId(userId);
-        Map<String, List<String>> paramMap = jsonMapper.toMap(stateData.getMapParams());
+        Map<String, Set<String>> paramMap = jsonMapper.toMap(stateData.getMapParams());
         ParametersData parametersData = parametersDao.getByAlertIdAndParamName(stateData.getAlertId(), paramName);
         if (isParamValueMatchToProcess(parametersData, paramValue, paramMap)) {
-            List<String> values = new ArrayList<>();
+            Set<String> values = new HashSet<>();
             values.add(paramValue);
 
             if (!paramMap.containsKey(paramName)) {
@@ -50,7 +48,7 @@ public class CreateParamsRequestMapper {
     }
 
     private boolean isParamValueMatchToProcess(ParametersData parametersData, String paramValue, Map<String,
-            List<String>> providedParams) {
+            Set<String>> providedParams) {
         return (!parametersData.getMandatory()
                 && (isValuePattern(paramValue, parametersData)
                 || paramValue.equals(TextConstants.EMPTY_PARAM.getText())))
@@ -70,11 +68,17 @@ public class CreateParamsRequestMapper {
         return true;
     }
 
-    private static String getNextKeyForFill(Map<String, List<String>> map, ParametersData parametersData) {
+    private static String getNextKeyForFill(Map<String, Set<String>> map, ParametersData parametersData) {
         return map.entrySet().stream()
+                // Если у параметра вообще нет значения
                 .filter(entry -> null == entry.getValue()
+                        //Если у параметр может принимать несколько значений, а
+                        // пользователь продолжает вводить новые значения
                         || !entry.getValue().contains(TextConstants.EMPTY_PARAM.getText())
-                        && parametersData.getMultipleValues())
+                        && parametersData.getMultipleValues()
+                        //Если параметр обязательный, но пользователь передал только пустое значение
+                        || entry.getValue().contains(TextConstants.EMPTY_PARAM.getText())
+                        && parametersData.getMandatory() && entry.getValue().size() == 1)
                 .findFirst().map(Map.Entry::getKey)
                 .orElse(null);
     }

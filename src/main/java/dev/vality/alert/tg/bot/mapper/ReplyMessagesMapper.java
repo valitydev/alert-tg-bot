@@ -17,6 +17,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static dev.vality.alert.tg.bot.utils.MainMenuBuilder.buildMainInlineKeyboardMarkup;
 
@@ -33,7 +34,7 @@ public class ReplyMessagesMapper {
     public SendMessage createAlertRequest(long userId) throws TException {
         StateData stateData = stateDataDao.getByUserId(userId);
         log.info("Start create alert with stateData {}", stateData);
-        Map<String, List<String>> paramMap = jsonMapper.toMap(stateData.getMapParams());
+        Map<String, Set<String>> paramMap = jsonMapper.toMap(stateData.getMapParams());
         CreateAlertRequest createAlertRequest = new CreateAlertRequest();
         createAlertRequest.setAlertId(stateData.getAlertId());
         createAlertRequest.setUserId(String.valueOf(userId));
