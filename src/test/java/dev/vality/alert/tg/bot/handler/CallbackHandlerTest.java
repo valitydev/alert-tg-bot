@@ -102,7 +102,6 @@ public class CallbackHandlerTest {
         verify(stateDataDao, times(1)).getByUserId(any());
         verify(stateDataDao, times(1)).save(any());
         verify(parametersDao, times(1)).save(any());
-
     }
 
 }

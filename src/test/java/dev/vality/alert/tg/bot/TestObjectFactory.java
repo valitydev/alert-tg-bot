@@ -15,14 +15,14 @@ public abstract class TestObjectFactory {
         StateData stateData = new StateData();
         stateData.setUserId(122233L);
         stateData.setAlertId("45");
-        stateData.setMapParams("{\"Процент\":[34],\"Имя Терминала\":[56]}");
+        stateData.setMapParams("[{\"values\":[34],\"id\":\"1\",\"name\":\"Процент\"}]");
         return stateData;
     }
 
     public static ParametersData testParameters() {
         ParametersData params = new ParametersData();
         params.setAlertId("32");
-        params.setParamName("Терминал");
+        params.setParamName("Процент");
         params.setParamId("14");
         params.setOptionsValues("[\"test1\",\"test2\"]");
         params.setMandatory(false);
@@ -74,7 +74,7 @@ public abstract class TestObjectFactory {
         Chat chat = new Chat();
         chat.setId(123L);
         Message message = new Message();
-        message.setText("Введите в ответе параметр: test");
+        message.setText("Введите в ответе параметр: Процент");
         message.setReplyToMessage(message);
         message.setChat(chat);
         message.setFrom(user);
@@ -104,7 +104,7 @@ public abstract class TestObjectFactory {
         Chat chat = new Chat();
         chat.setId(123L);
         Message message = new Message();
-        message.setText("selectParam{32}<14>");
+        message.setText("selectParam{Процент}<14>");
         message.setReplyToMessage(message);
         message.setChat(chat);
         message.setFrom(user);

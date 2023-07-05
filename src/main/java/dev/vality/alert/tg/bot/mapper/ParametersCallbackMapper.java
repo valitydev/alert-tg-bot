@@ -5,6 +5,7 @@ import dev.vality.alert.tg.bot.dao.ParametersDao;
 import dev.vality.alert.tg.bot.dao.StateDataDao;
 import dev.vality.alert.tg.bot.domain.tables.pojos.ParametersData;
 import dev.vality.alert.tg.bot.domain.tables.pojos.StateData;
+import dev.vality.alert.tg.bot.model.Parameter;
 import dev.vality.alert.tg.bot.service.MayDayService;
 import dev.vality.alert.tg.bot.utils.ParamKeyboardBuilder;
 import dev.vality.alerting.mayday.AlertConfiguration;
@@ -29,25 +30,35 @@ public class ParametersCallbackMapper {
         AlertConfiguration alertConfiguration = mayDayService.getAlertConfiguration(callData);
         String alertId = alertConfiguration.getId();
         List<ParameterConfiguration> parameterConfigurations = alertConfiguration.getParameters();
-        parameterConfigurations.sort(ParameterConfiguration::compareTo);
-        fillStateDataAndSave(userId, alertId, parameterConfigurations);
+        List<Parameter> sortedParams = fillStateDataAndSave(userId, alertId, parameterConfigurations);
         parameterConfigurations.forEach(param -> convertParameterConfigurationsAndSave(alertId, param));
         return ParamKeyboardBuilder.buildParamKeyboard(
-                parameterConfigurations.get(0).isSetOptions(),
+                parameterConfigurations.stream()
+                        .filter(parameterConfiguration ->
+                                parameterConfiguration.getId().equals(sortedParams.get(0).getId()))
+                        .findFirst()
+                        .orElseThrow().isSetOptions(),
                 alertId,
-                parameterConfigurations.get(0).getId(),
-                parameterConfigurations.get(0).getName(),
-                parameterConfigurations.get(0).getName());
+                sortedParams.get(0).getId(),
+                sortedParams.get(0).getName(),
+                sortedParams.get(0).getName());
     }
 
-    private void fillStateDataAndSave(long userId, String alertId,
-                                      List<ParameterConfiguration> parameterConfigurations) {
+    private List<Parameter> fillStateDataAndSave(long userId, String alertId,
+                                                 List<ParameterConfiguration> parameterConfigurations) {
         StateData stateData = stateDataDao.getByUserId(userId);
         stateData.setAlertId(alertId);
-        Map<String, List<String>> mapParams = new HashMap<>();
-        parameterConfigurations.forEach(param -> mapParams.put(param.getName(), new ArrayList<>()));
-        stateData.setMapParams(jsonMapper.toJson(mapParams));
+        List<Parameter> parameters = new ArrayList<>();
+        parameterConfigurations.forEach(param -> {
+            Parameter parameter = new Parameter();
+            parameter.setId(param.getId());
+            parameter.setName(param.getName());
+            parameters.add(parameter);
+        });
+        parameters.sort(Parameter::compareTo);
+        stateData.setMapParams(jsonMapper.toJson(parameters));
         stateDataDao.save(stateData);
+        return parameters;
     }
 
     private void convertParameterConfigurationsAndSave(String alertId, ParameterConfiguration param) {
