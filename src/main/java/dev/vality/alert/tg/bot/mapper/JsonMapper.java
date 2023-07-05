@@ -3,6 +3,7 @@ package dev.vality.alert.tg.bot.mapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.vality.alert.tg.bot.model.Parameter;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ public class JsonMapper {
     }
 
     @SneakyThrows(JsonProcessingException.class)
-    public Map<String, Set<String>> toMap(String json) {
+    public List<Parameter> toMap(String json) {
         return objectMapper.readValue(json, new TypeReference<>() {
         });
     }

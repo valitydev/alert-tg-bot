@@ -9,6 +9,7 @@ import dev.vality.alert.tg.bot.service.MayDayService;
 import dev.vality.alerting.mayday.UserAlert;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -25,6 +26,7 @@ import java.util.Set;
 
 import static dev.vality.alert.tg.bot.utils.StringSearchUtils.*;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -65,6 +67,7 @@ public class InlineHandler implements CommonHandler<AnswerInlineQuery> {
                 String paramId = substringParamId(inlineQuery);
                 ParametersData parametersData = parametersDao.getByAlertIdAndParamId(alertId, paramId);
                 Set<String> options = jsonMapper.toSet(parametersData.getOptionsValues());
+                log.info("Supported params: {}", options);
                 options.forEach(optionValue -> {
                     if (isParamInList(optionValue, inlineQuery, alertId, paramId)) {
                         queryResultArticleList.add(fillInlineQueryResultArticle(

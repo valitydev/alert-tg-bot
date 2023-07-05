@@ -66,7 +66,7 @@ public class ReplyMessageMapperTest {
         SendMessage sendMessage = replyMessagesMapper.createNextParameterRequest("test", testStateData());
         assertNotNull(sendMessage);
         assertNotNull(sendMessage.getReplyMarkup());
-        assertEquals("Выберите из списка параметр: Терминал", sendMessage.getText());
+        assertEquals("Выберите из списка параметр: Процент", sendMessage.getText());
     }
 
     @Test
