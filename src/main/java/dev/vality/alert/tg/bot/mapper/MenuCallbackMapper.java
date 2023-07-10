@@ -110,8 +110,16 @@ public class MenuCallbackMapper {
                 .replace("_", "\\_")
                 .replace("*", "\\*")
                 .replace("[", "\\[")
+                .replace("]", "\\]")
+                .replace("(", "\\(")
+                .replace(")", "\\)")
+                .replace("~", "\\~")
+                .replace("#", "\\#")
                 .replace("`", "\\`")
                 .replace(".", "\\.")
-                .replace("-", "\\-");
+                .replace("+", "\\+")
+                .replace("-", "\\-")
+                .replace("=", "\\=")
+                .replace(">", "\\>");
     }
 }
