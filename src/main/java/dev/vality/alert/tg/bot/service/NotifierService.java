@@ -32,9 +32,10 @@ public class NotifierService implements NotifierServiceSrv.Iface {
                         notification.getReceiverId());
             }
         } catch (TelegramApiException | TException ex) {
-            log.error("Received an exception while notify receiver {} with message{}",
+            log.error("Received an exception while notify receiver {} with message{} with ex {}",
                     notification.getReceiverId(),
-                    notification.getMessage());
+                    notification.getMessage(),
+                    ex);
         }
     }
 
