@@ -3,7 +3,7 @@ package dev.vality.alert.tg.bot.handler;
 import dev.vality.alert.tg.bot.constants.InlineCommands;
 import dev.vality.alert.tg.bot.dao.ParametersDao;
 import dev.vality.alert.tg.bot.domain.tables.pojos.ParametersData;
-import dev.vality.alert.tg.bot.exeptions.AlertTgBotException;
+import dev.vality.alert.tg.bot.exceptions.AlertTgBotException;
 import dev.vality.alert.tg.bot.mapper.JsonMapper;
 import dev.vality.alert.tg.bot.service.MayDayService;
 import dev.vality.alerting.mayday.UserAlert;

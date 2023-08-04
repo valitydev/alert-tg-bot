@@ -13,7 +13,9 @@ public class UserUtils {
                 ? update.getMessage().getFrom().getId()
                 : update.hasCallbackQuery()
                 ? update.getCallbackQuery().getFrom().getId()
-                : update.getInlineQuery().getFrom().getId();
+                : update.hasInlineQuery()
+                ? update.getInlineQuery().getFrom().getId()
+                : update.getMyChatMember().getFrom().getId();
     }
 
     public static String getUserName(Update update) {
@@ -21,7 +23,9 @@ public class UserUtils {
                 ? update.getMessage().getFrom().getUserName()
                 : update.hasCallbackQuery()
                 ? update.getCallbackQuery().getMessage().getFrom().getUserName()
-                : update.getInlineQuery().getFrom().getUserName();
+                : update.hasInlineQuery()
+                ? update.getInlineQuery().getFrom().getUserName()
+                : update.getMyChatMember().getFrom().getUserName();
     }
 
     public static boolean isUserInBot(Update update) {

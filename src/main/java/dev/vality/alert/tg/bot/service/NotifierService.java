@@ -1,7 +1,6 @@
 package dev.vality.alert.tg.bot.service;
 
 
-import dev.vality.alert.tg.bot.exeptions.AlertTgBotException;
 import dev.vality.alerting.tg_bot.Notification;
 import dev.vality.alerting.tg_bot.NotifierServiceSrv;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +31,7 @@ public class NotifierService implements NotifierServiceSrv.Iface {
                         notification.getReceiverId());
             }
         } catch (TelegramApiException | TException ex) {
-            log.error("Received an exception while notify receiver {} with message{} with ex {}",
+            log.error("Received an exception while notify receiver {} with message {}",
                     notification.getReceiverId(),
                     notification.getMessage(),
                     ex);
