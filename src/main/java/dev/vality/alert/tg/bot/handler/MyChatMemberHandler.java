@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import static org.telegram.telegrambots.meta.api.objects.MemberStatus.KICKED;
+import static org.telegram.telegrambots.meta.api.objects.MemberStatus.MEMBER;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -25,8 +28,8 @@ public class MyChatMemberHandler implements CommonHandler<SendMessage> {
 
     @Override
     public SendMessage handle(Update update, long userId) throws TException {
-        if (update.getMyChatMember().getOldChatMember().getStatus().equals("member")
-                && update.getMyChatMember().getNewChatMember().getStatus().equals("kicked")) {
+        if (update.getMyChatMember().getOldChatMember().getStatus().equals(MEMBER)
+                && update.getMyChatMember().getNewChatMember().getStatus().equals(KICKED)) {
             mayDayService.deleteAllAlerts(String.valueOf(userId));
             log.info("User {} blocked bot, all alerts was deleted for user", userId);
         }

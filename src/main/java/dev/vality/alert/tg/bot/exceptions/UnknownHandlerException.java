@@ -1,4 +1,4 @@
-package dev.vality.alert.tg.bot.exeptions;
+package dev.vality.alert.tg.bot.exceptions;
 
 public class UnknownHandlerException extends RuntimeException {
 

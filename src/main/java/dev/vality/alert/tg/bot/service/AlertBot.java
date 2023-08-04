@@ -1,8 +1,8 @@
 package dev.vality.alert.tg.bot.service;
 
 import dev.vality.alert.tg.bot.config.properties.AlertBotProperties;
-import dev.vality.alert.tg.bot.exeptions.AlertTgBotException;
-import dev.vality.alert.tg.bot.exeptions.UnknownHandlerException;
+import dev.vality.alert.tg.bot.exceptions.AlertTgBotException;
+import dev.vality.alert.tg.bot.exceptions.UnknownHandlerException;
 import dev.vality.alert.tg.bot.handler.CommonHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
