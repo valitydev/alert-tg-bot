@@ -16,9 +16,10 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 public class NotifierService implements NotifierServiceSrv.Iface {
 
     private final AlertBot alertBot;
+    private final MayDayService mayDayService;
 
     @Override
-    public void notify(Notification notification) {
+    public void notify(Notification notification) throws TException {
         log.info("Try to send notification {} to user {}", notification.getMessage(), notification.getReceiverId());
         try {
             if (alertBot.isChatMemberPermission(Long.valueOf(notification.getReceiverId()))) {
@@ -35,6 +36,11 @@ public class NotifierService implements NotifierServiceSrv.Iface {
                     notification.getReceiverId(),
                     notification.getMessage(),
                     ex);
+            if (ex.getMessage().contains("bot was blocked by the user")) {
+                mayDayService.deleteAllAlerts(notification.getReceiverId());
+                log.info("All alerts was deleted for user {} because bot was blocked by the user",
+                        notification.getReceiverId());
+            }
         }
     }
 
