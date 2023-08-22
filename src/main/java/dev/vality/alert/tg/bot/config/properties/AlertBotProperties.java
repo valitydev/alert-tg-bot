@@ -17,4 +17,5 @@ public class AlertBotProperties {
     private String name;
     @NotNull
     private String chatId;
+    private Integer cacheOptionsSec = 0;
 }

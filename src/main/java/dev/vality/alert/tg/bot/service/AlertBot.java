@@ -63,7 +63,7 @@ public class AlertBot extends TelegramLongPollingBot {
                     execute(sendMessage);
                 } else if (answer instanceof AnswerInlineQuery answerInlineQuery) {
                     answerInlineQuery.setIsPersonal(true);
-                    answerInlineQuery.setCacheTime(0);
+                    answerInlineQuery.setCacheTime(alertBotProperties.getCacheOptionsSec());
                     execute(answerInlineQuery);
                 }
             }

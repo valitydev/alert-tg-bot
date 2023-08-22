@@ -10,6 +10,7 @@ import dev.vality.alerting.mayday.UserAlert;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.thrift.TException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -98,7 +99,7 @@ public class InlineHandler implements CommonHandler<AnswerInlineQuery> {
                                                                   String description,
                                                                   InputTextMessageContent inputTextMessageContent) {
         InlineQueryResultArticle inlineQueryResultArticle = new InlineQueryResultArticle();
-        inlineQueryResultArticle.setId(id);
+        inlineQueryResultArticle.setId(DigestUtils.sha256Hex(id));
         inlineQueryResultArticle.setTitle(id);
         inlineQueryResultArticle.setDescription(description);
         inlineQueryResultArticle.setInputMessageContent(inputTextMessageContent);
