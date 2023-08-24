@@ -120,6 +120,7 @@ public class MenuCallbackMapper {
                 .replace("+", "\\+")
                 .replace("-", "\\-")
                 .replace("=", "\\=")
-                .replace(">", "\\>");
+                .replace(">", "\\>")
+                .replace("!", "\\!");
     }
 }
