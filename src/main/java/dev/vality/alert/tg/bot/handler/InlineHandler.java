@@ -87,7 +87,7 @@ public class InlineHandler implements CommonHandler<AnswerInlineQuery> {
         }
 
         List<InlineQueryResultArticle> queryResultArticleListCopy = queryResultArticleList;
-        queryResultArticleListCopy.sort(Comparator.comparingInt(q -> q.getId().length()));
+        queryResultArticleListCopy.sort(Comparator.comparingInt(q -> q.getTitle().length()));
         if (queryResultArticleListCopy.size() > MAX_INLINE_LIMIT) {
             queryResultArticleListCopy = queryResultArticleListCopy.subList(0, MAX_INLINE_LIMIT);
         }
