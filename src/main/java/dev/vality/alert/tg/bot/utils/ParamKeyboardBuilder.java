@@ -37,7 +37,7 @@ public class ParamKeyboardBuilder {
             message.setText(SELECT_PARAM_FROM_LIST.getText() + paramNameForSelect);
         } else {
             message.setReplyMarkup(new ForceReplyKeyboard());
-            message.setText(ENTER_PARAM_TO_REPLY.getText() + paramNameForReply);
+            message.setText(paramNameForReply);
         }
         return message;
     }

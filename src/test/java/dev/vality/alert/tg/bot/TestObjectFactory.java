@@ -74,7 +74,7 @@ public abstract class TestObjectFactory {
         Chat chat = new Chat();
         chat.setId(123L);
         Message message = new Message();
-        message.setText("Введите в ответе параметр: Процент");
+        message.setText("Процент");
         message.setReplyToMessage(message);
         message.setChat(chat);
         message.setFrom(user);
