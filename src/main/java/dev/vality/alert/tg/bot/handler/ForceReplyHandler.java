@@ -32,8 +32,7 @@ public class ForceReplyHandler implements CommonHandler<SendMessage> {
     public SendMessage handle(Update update, long userId) throws TException {
         return createParamsRequestMapper.createRequest(
                 userId,
-                update.getMessage().getReplyToMessage().getText()
-                        .substring(TextConstants.ENTER_PARAM_TO_REPLY.getText().length()),
+                update.getMessage().getReplyToMessage().getText(),
                 update.getMessage().getText());
     }
 }
