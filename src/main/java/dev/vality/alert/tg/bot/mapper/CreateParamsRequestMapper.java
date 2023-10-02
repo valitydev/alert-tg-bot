@@ -1,6 +1,6 @@
 package dev.vality.alert.tg.bot.mapper;
 
-import dev.vality.alert.tg.bot.constants.TextConstants;
+import dev.vality.alert.tg.bot.constants.ParameterValue;
 import dev.vality.alert.tg.bot.dao.ParametersDao;
 import dev.vality.alert.tg.bot.dao.StateDataDao;
 import dev.vality.alert.tg.bot.domain.tables.pojos.ParametersData;
@@ -11,7 +11,7 @@ import org.apache.thrift.TException;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
-import java.util.*;
+import java.util.List;
 import java.util.regex.Pattern;
 
 @Component
@@ -48,15 +48,15 @@ public class CreateParamsRequestMapper {
                                                List<Parameter> parameters) {
         return (!parametersData.getMandatory()
                 && (isValuePattern(paramValue, parametersData)
-                || paramValue.equals(TextConstants.EMPTY_PARAM.getText())))
+                || paramValue.equals(ParameterValue.EMPTY.getText())))
                 || (parametersData.getMandatory()
-                && !paramValue.equals(TextConstants.EMPTY_PARAM.getText())
+                && !paramValue.equals(ParameterValue.EMPTY.getText())
                 && isValuePattern(paramValue, parametersData))
                 || (parametersData.getMandatory()
-                && paramValue.equals(TextConstants.EMPTY_PARAM.getText())
+                && paramValue.equals(ParameterValue.EMPTY.getText())
                 && parameters.stream()
                 .anyMatch(parameter -> parameter.getId().equals(parametersData.getParamId())
-                        && !parameter.getValues().contains(TextConstants.EMPTY_PARAM.getText())));
+                        && !parameter.getValues().contains(ParameterValue.EMPTY.getText())));
     }
 
     private boolean isValuePattern(String value, ParametersData parametersData) {
@@ -75,10 +75,10 @@ public class CreateParamsRequestMapper {
 
         //Если параметр может принимать несколько значений и пользователь не ввёл символ прекращения ввода
         if (parametersData.getMultipleValues()
-                && !lastParameter.getValues().contains(TextConstants.EMPTY_PARAM.getText())
+                && !lastParameter.getValues().contains(ParameterValue.EMPTY.getText())
                 //Если параметр обязательный, но пользователь так и не передал значение
                 || parametersData.getMandatory()
-                && lastParameter.getValues().contains(TextConstants.EMPTY_PARAM.getText())
+                && lastParameter.getValues().contains(ParameterValue.EMPTY.getText())
                 && lastParameter.getValues().size() == 1) {
             return parametersData.getParamName();
         }

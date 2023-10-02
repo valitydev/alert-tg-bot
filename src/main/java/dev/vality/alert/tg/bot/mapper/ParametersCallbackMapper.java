@@ -1,6 +1,6 @@
 package dev.vality.alert.tg.bot.mapper;
 
-import dev.vality.alert.tg.bot.constants.TextConstants;
+import dev.vality.alert.tg.bot.constants.ParameterValue;
 import dev.vality.alert.tg.bot.dao.ParametersDao;
 import dev.vality.alert.tg.bot.dao.StateDataDao;
 import dev.vality.alert.tg.bot.domain.tables.pojos.ParametersData;
@@ -15,7 +15,10 @@ import org.apache.thrift.TException;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
@@ -68,7 +71,7 @@ public class ParametersCallbackMapper {
         parametersData.setParamName(param.getName());
         Set<String> options = param.isSetOptions() ? new HashSet<>(param.getOptions()) : null;
         if (options != null && (!param.isMandatory() || param.isMultipleValues())) {
-            options.add(TextConstants.EMPTY_PARAM.getText());
+            options.add(ParameterValue.EMPTY.getText());
         }
         String optionsValues = jsonMapper.toJson(options);
         parametersData.setOptionsValues(optionsValues);

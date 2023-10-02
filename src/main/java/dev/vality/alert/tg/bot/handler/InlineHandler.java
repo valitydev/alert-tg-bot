@@ -1,6 +1,7 @@
 package dev.vality.alert.tg.bot.handler;
 
 import dev.vality.alert.tg.bot.constants.InlineCommands;
+import dev.vality.alert.tg.bot.constants.ParameterValue;
 import dev.vality.alert.tg.bot.dao.ParametersDao;
 import dev.vality.alert.tg.bot.domain.tables.pojos.ParametersData;
 import dev.vality.alert.tg.bot.exceptions.AlertTgBotException;
@@ -21,7 +22,6 @@ import org.telegram.telegrambots.meta.api.objects.inlinequery.inputmessageconten
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResultArticle;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -86,13 +86,28 @@ public class InlineHandler implements CommonHandler<AnswerInlineQuery> {
 
         }
 
+        List<InlineQueryResultArticle> queryResultArticleListCopy =
+                sortAndReturnApplicableAmountOfOptions(queryResultArticleList);
+
+        return new AnswerInlineQuery(update.getInlineQuery().getId(), new ArrayList<>(queryResultArticleListCopy));
+    }
+
+    private static List<InlineQueryResultArticle> sortAndReturnApplicableAmountOfOptions(
+            List<InlineQueryResultArticle> queryResultArticleList) {
         List<InlineQueryResultArticle> queryResultArticleListCopy = queryResultArticleList;
-        queryResultArticleListCopy.sort(Comparator.comparingInt(q -> q.getTitle().length()));
+        queryResultArticleListCopy.sort((o1, o2) -> {
+            if (ParameterValue.EMPTY.getText().equals(o1.getTitle())) {
+                return 1;
+            }
+            if (ParameterValue.EMPTY.getText().equals(o2.getTitle())) {
+                return -1;
+            }
+            return Integer.compare(o1.getTitle().length(), o2.getTitle().length());
+        });
         if (queryResultArticleListCopy.size() > MAX_INLINE_LIMIT) {
             queryResultArticleListCopy = queryResultArticleListCopy.subList(0, MAX_INLINE_LIMIT);
         }
-
-        return new AnswerInlineQuery(update.getInlineQuery().getId(), new ArrayList<>(queryResultArticleListCopy));
+        return queryResultArticleListCopy;
     }
 
     private InlineQueryResultArticle fillInlineQueryResultArticle(String id,

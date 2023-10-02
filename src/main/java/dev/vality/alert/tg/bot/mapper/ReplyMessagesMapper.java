@@ -1,5 +1,6 @@
 package dev.vality.alert.tg.bot.mapper;
 
+import dev.vality.alert.tg.bot.constants.ParameterValue;
 import dev.vality.alert.tg.bot.constants.TextConstants;
 import dev.vality.alert.tg.bot.dao.ParametersDao;
 import dev.vality.alert.tg.bot.dao.StateDataDao;
@@ -46,7 +47,7 @@ public class ReplyMessagesMapper {
                                     .map(value -> {
                                         ParameterInfo parameterInfo = new ParameterInfo();
                                         parameterInfo.setId(parametersData.getParamId());
-                                        parameterInfo.setValue(value);
+                                        parameterInfo.setValue(formatValue(value));
                                         return parameterInfo;
                                     }).toList().stream();
                         }).toList();
@@ -57,6 +58,13 @@ public class ReplyMessagesMapper {
         message.setReplyMarkup(buildMainInlineKeyboardMarkup());
         log.info("Alert {} was created", createAlertRequest);
         return message;
+    }
+
+    private String formatValue(String value) {
+        if (ParameterValue.EMPTY.getText().equals(value)) {
+            return ParameterValue.EMPTY.getId();
+        }
+        return value;
     }
 
     public SendMessage createNextParameterRequest(String nextValue, StateData stateData) {
