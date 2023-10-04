@@ -102,7 +102,7 @@ public class InlineHandler implements CommonHandler<AnswerInlineQuery> {
             if (ParameterValue.EMPTY.getText().equals(o2.getTitle())) {
                 return -1;
             }
-            return Integer.compare(o1.getTitle().length(), o2.getTitle().length());
+            return CharSequence.compare(o1.getTitle(), o2.getTitle());
         });
         if (queryResultArticleListCopy.size() > MAX_INLINE_LIMIT) {
             queryResultArticleListCopy = queryResultArticleListCopy.subList(0, MAX_INLINE_LIMIT);
