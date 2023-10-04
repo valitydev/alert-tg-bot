@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static dev.vality.alert.tg.bot.constants.TextConstants.*;
+import static dev.vality.alert.tg.bot.constants.TextConstants.SELECT;
+import static dev.vality.alert.tg.bot.constants.TextConstants.SELECT_PARAM_FROM_LIST;
 import static dev.vality.alert.tg.bot.utils.StringSearchUtils.getSelectParamsInlineQuery;
 
 @RequiredArgsConstructor

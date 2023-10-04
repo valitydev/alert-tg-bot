@@ -20,7 +20,6 @@ public enum TextConstants {
     DELETE_ALL_ALERTS("Удалить все алерты"),
     SELECT_PARAM_FROM_LIST("Выберите из списка параметр: "),
     ENTER_PARAM_TO_REPLY("Введите в ответе параметр: "),
-    EMPTY_PARAM("-"),
     SELECT("Выбрать");
 
     private final String text;

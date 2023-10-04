@@ -1,6 +1,5 @@
 package dev.vality.alert.tg.bot.model;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

@@ -1,6 +1,5 @@
 package dev.vality.alert.tg.bot.handler;
 
-import dev.vality.alert.tg.bot.constants.TextConstants;
 import dev.vality.alert.tg.bot.mapper.CreateParamsRequestMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
