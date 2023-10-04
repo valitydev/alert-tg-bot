@@ -97,10 +97,10 @@ public class InlineHandler implements CommonHandler<AnswerInlineQuery> {
         List<InlineQueryResultArticle> queryResultArticleListCopy = queryResultArticleList;
         queryResultArticleListCopy.sort((o1, o2) -> {
             if (ParameterValue.EMPTY.getText().equals(o1.getTitle())) {
-                return 1;
+                return -1;
             }
             if (ParameterValue.EMPTY.getText().equals(o2.getTitle())) {
-                return -1;
+                return 1;
             }
             return CharSequence.compare(o1.getTitle(), o2.getTitle());
         });
