@@ -20,7 +20,7 @@ public class NotifierService implements NotifierServiceSrv.Iface {
     private final AlertBot alertBot;
     private final MayDayService mayDayService;
 
-    private final static Set<String> USER_ERRORS = Set.of("bot was blocked by the user", "user is deactivated");
+    private static final Set<String> USER_ERRORS = Set.of("bot was blocked by the user", "user is deactivated");
 
     @Override
     public void notify(Notification notification) throws TException {
