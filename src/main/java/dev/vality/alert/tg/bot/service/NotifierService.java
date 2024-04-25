@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.util.Set;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -17,6 +19,8 @@ public class NotifierService implements NotifierServiceSrv.Iface {
 
     private final AlertBot alertBot;
     private final MayDayService mayDayService;
+
+    private final static Set<String> USER_ERRORS = Set.of("bot was blocked by the user", "user is deactivated");
 
     @Override
     public void notify(Notification notification) throws TException {
@@ -36,10 +40,10 @@ public class NotifierService implements NotifierServiceSrv.Iface {
                     notification.getReceiverId(),
                     notification.getMessage(),
                     ex);
-            if (ex.getMessage().contains("bot was blocked by the user")) {
+            if (USER_ERRORS.stream().anyMatch(e -> ex.getMessage().contains(e))) {
                 mayDayService.deleteAllAlerts(notification.getReceiverId());
-                log.info("All alerts was deleted for user {} because bot was blocked by the user",
-                        notification.getReceiverId());
+                log.info("All alerts was deleted for user {} because {}",
+                        notification.getReceiverId(), ex.getMessage());
             }
         }
     }
