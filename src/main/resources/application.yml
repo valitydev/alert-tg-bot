@@ -39,7 +39,7 @@ spring:
     vault:
       kv:
         enabled: true
-      uri: https://vault.empayre.com:443
+      uri: https://vault.vality.com:443
       authentication: TOKEN
       scheme: http
       token: "123456"
