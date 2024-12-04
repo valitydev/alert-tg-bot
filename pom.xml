@@ -27,7 +27,7 @@
         <db.password>postgres</db.password>
         <db.schema>alert_tg_bot</db.schema>
         <testcontainers.annotations.version>1.4.3</testcontainers.annotations.version>
-        <spring-cloud.version>2021.0.7</spring-cloud.version>
+        <spring-cloud.version>2024.0.0</spring-cloud.version>
     </properties>
 
 
